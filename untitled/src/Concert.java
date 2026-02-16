@@ -4,7 +4,7 @@ public class Concert extends Event{
     public Concert(){
     }
 
-    public Concert(String eventId, String title, String dateTime, String location, int capacity, boolean status, int ageRestriction){
+    public Concert(String eventId, String title, String dateTime, String location, int capacity, String status, int ageRestriction){
         super(eventId, title, dateTime, location, capacity, status);
         this.ageRestriction = ageRestriction;
     }
