@@ -10,6 +10,22 @@ public class Workshop extends Event {
         this.topic = topic;
     }
 
+    @Override
+    public void setSpecificData(String data) {
+        this.topic = data;
+    }
+
+
+    public void print(){
+        super.print();
+        System.out.println("Topic: " + topic);
+    }
+
+    public void printOrder(){
+        super.printOrder();
+        System.out.println("7. Topic: " + topic);
+    }
+
     public String getTopic(){
         return topic;
     }
