@@ -1,5 +1,5 @@
 public class User {
-    private String userId; // needs to be unique, create code to do so later
+    private String userId;
     private String name;
     private String email;
 

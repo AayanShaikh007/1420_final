@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserManagement {
-    public static  ArrayList<User> userList= new ArrayList<User>();
+    private static  ArrayList<User> userList= new ArrayList<User>();
     public String userId, name, email, type;
     public Scanner myObj = new Scanner(System.in);
     public boolean unique;
@@ -14,7 +14,7 @@ public class UserManagement {
     public void createUser(){
         User user = new User();
         unique = true;
-        System.out.println("Create a user data needed: ");
+        System.out.println("Create a user data needed: "); // change this when needed
         while (unique){
             System.out.print("Student\nStaff\nGuest\nType of user: ");
             type = myObj.nextLine();
@@ -85,7 +85,9 @@ public class UserManagement {
         return false;
     }
     public boolean checkEmail(String email) {
-        if (email.contains("@")){
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+        if (!email.matches(regex)) {
+            System.out.println("Invalid email format");
             return false;
         }else{
             System.out.println("The email needs to contain @");
@@ -93,5 +95,9 @@ public class UserManagement {
         }
 
 
+    }
+
+    public ArrayList<User> getUserList(){
+        return userList;
     }
 }

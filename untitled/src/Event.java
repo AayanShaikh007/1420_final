@@ -1,5 +1,5 @@
-public class Event {
-    private String eventId; // needs to be unique work on this later
+public abstract class Event {
+    private String eventId;
     private String title;
     private String dateTime;
     private String location;
@@ -17,6 +17,28 @@ public class Event {
         this.capacity = capacity;
         this.status = status;
     }
+
+    public abstract void setSpecificData(String data);
+
+
+    public void print(){
+        System.out.println("EventId: " +eventId);
+        System.out.println("Title: " +title);
+        System.out.println("Event date: " +dateTime);
+        System.out.println("Event Location: " +location);
+        System.out.println("Event capacity: " +capacity);
+        System.out.println("Event Status: " +status);
+    }
+
+    public void printOrder(){
+        System.out.println("1. EventId: " +eventId);
+        System.out.println("2. Title: " +title);
+        System.out.println("3. Event date: " +dateTime);
+        System.out.println("4. Event Location: " +location);
+        System.out.println("5. Event capacity: " +capacity);
+        System.out.println("6. Event Status: " +status);
+    }
+
 
     public String getStatus() {
         return status;
