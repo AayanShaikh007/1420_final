@@ -39,12 +39,25 @@ public class UserManagement {
             email = myObj.nextLine();
             unique = checkEmail(email);
         }
-        // if type is different class instead of just a parameter, here is when you change the objects
+        unique = true;
+        while (unique){
+            System.out.print("Student\nStaff\nGuest\nType of user: ");
+            type = myObj.nextLine();
+            unique = checkType(type);
+        }
         user.setUserId(userId);
         user.setName(name);
         user.setEmail(email);
-
-        userList.add(user);
+        if(type.equalsIgnoreCase("student")){
+            Student s = new Student(userId, name, email);
+            userList.add((s));
+        }else if(type.equalsIgnoreCase("staff")){
+            Staff st = new Staff(userId, name, email);
+            userList.add((st));
+        }else if(type.equalsIgnoreCase("guest")){
+            Guest g = new Guest(userId, name, email);
+            userList.add((g));
+        }
     }
 
     public void viewUser(String userId){ // when making the GUI this should be changed to a return user to give each data to the GUI

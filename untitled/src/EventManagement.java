@@ -79,9 +79,17 @@ public class EventManagement {
 
     public void updateEvent(){
         unending= unique = true;
-        System.out.print("Write the id of the event you want to update: ");
-        eventId = myObj.nextLine();
-        Event event = getEvent(eventId);
+        Event event;
+        while (true){
+            System.out.print("Write the id of the event you want to update: ");
+            eventId = myObj.nextLine();
+            event = getEvent(eventId);
+            if(event != null){
+                break;
+            }else {
+                System.out.println("The id writen was not found");
+            }
+        }
         while (unending){
         System.out.println("Event Data: \n");
         event.printOrder();
@@ -152,6 +160,22 @@ public class EventManagement {
 
     }
 
+    public void cancelEvent(){
+        Event event;
+        while (true){
+            System.out.print("Write the id of the event you want to update: ");
+            eventId = myObj.nextLine();
+            event = getEvent(eventId);
+            if(event != null){
+                break;
+            }else {
+                System.out.println("The id writen was not found");
+            }
+        }
+        event.setStatus("Cancelled");
+        //cancelled the booking when we get that.
+
+    }
     public Event getEvent(String eventId){
         for(Event event : eventList){
             if(eventId.equals(event.getEventId())){
@@ -231,21 +255,44 @@ public class EventManagement {
         return false;
     }
 
-    /*Create an event: Add a new event with required fields (including event type and its
-type-specific attribute). Validate inputs such as capacity (> 0) and prevent duplicate
-eventIds.
-● Update event information: Modify existing event details (e.g., title, dateTime, location,
-capacity, and type-specific fields). The system must ensure updates keep the event in
-a valid state.
+    public void listEvent(){
+        for (Event e : eventList){
+            e.print();
+        } // we need to change this when we get the gui
+    }
+
+    public Event searchByTitle(String title){
+        for(Event event : eventList){
+            if(title.equalsIgnoreCase(event.getEventId())){
+                return event;
+            }
+        }
+        return null;
+    }
+
+    public void filterByType(String type){
+        for (Event event : eventList) {
+            if(type.equalsIgnoreCase("workshop")){
+                if (event instanceof Workshop) {
+                    event.print();
+                }
+            }else if(type.equalsIgnoreCase("seminar")){
+                if (event instanceof Seminar) {
+                    event.print();
+                }
+            }else if(type.equalsIgnoreCase("Concert")){
+                if (event instanceof Concert) {
+                    event.print();
+                }
+            }
+                // This one needs to change when we get the GUI
+        }
+
+    }
+    /*
 ● Cancel an event: Mark an event as Cancelled so it is no longer bookable.
 ○ all Confirmed and Waitlisted bookings for that event are automatically set to
-Cancelled, and
-○ the waitlist becomes empty.
-● List events: Display all events with their key details (including capacity and status) so
-the admin can easily browse what is available.
-● Search and filter events: Provide basic search capabilities, including search by title
-(partial and/or case-insensitive match) and filter by event type
-(Workshop/Seminar/Concert) to narrow results.
-2
+Cancelled, and the waitlist becomes empty.
+
 */
 }
