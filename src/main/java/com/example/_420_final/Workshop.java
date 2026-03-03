@@ -17,6 +17,10 @@ public class Workshop extends Event {
         this.topic = data;
     }
 
+    @Override
+    public void printSpecificData() {
+        System.out.print(topic);
+    }
 
     public void print(){
         super.print();

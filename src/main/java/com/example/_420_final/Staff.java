@@ -7,5 +7,6 @@ public class Staff extends User{
 
     public Staff(String userId, String name, String email){
         super(userId, name, email);
+        setUserBook(new Booking[5]);
     }
 }

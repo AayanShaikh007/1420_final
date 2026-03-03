@@ -24,6 +24,10 @@ public class Seminar extends Event{
         this.speakerName = data;
     }
 
+    @Override
+    public void printSpecificData() {
+        System.out.print(speakerName);
+    }
     public String getSpeakerName(){
         return speakerName;
     }

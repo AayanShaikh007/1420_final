@@ -24,6 +24,10 @@ public class Concert extends Event{
         this.ageRestriction = Integer.parseInt(data);
     }
 
+    @Override
+    public void printSpecificData() {
+        System.out.print(ageRestriction);;
+    }
 
     public int getAgeRestriction(){
         return ageRestriction;
