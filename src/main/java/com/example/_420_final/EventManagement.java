@@ -20,7 +20,9 @@ public class EventManagement {
 
     public EventManagement(){
     }
-
+    public void addEvent(Event event){
+        eventList.add(event);
+    }
     public void createEvent(){
         unique = true;
         System.out.println("Create event data needed: ");

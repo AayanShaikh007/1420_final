@@ -13,6 +13,9 @@ public class UserManagement {
 
     public UserManagement(){
     }
+    public void addUser(User user){
+        userList.add(user);
+    }
     public void createUser(){
         User user = new User();
         unique = true;
