@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
+
     public static UserManagement userManager = new UserManagement();
     public static EventManagement eventManager = new EventManagement();
 
