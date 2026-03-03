@@ -22,23 +22,25 @@ public abstract class Event {
 
     public abstract void setSpecificData(String data);
 
+    public abstract void printSpecificData();
 
     public void print(){
+
         System.out.println("EventId: " +eventId);
         System.out.println("Title: " +title);
-        System.out.println("main.java.Event date: " +dateTime);
-        System.out.println("main.java.Event Location: " +location);
-        System.out.println("main.java.Event capacity: " +capacity);
-        System.out.println("main.java.Event Status: " +status);
+        System.out.println("Event date: " +dateTime);
+        System.out.println("Event Location: " +location);
+        System.out.println("Event capacity: " +capacity);
+        System.out.println("Event Status: " +status);
     }
 
     public void printOrder(){
         System.out.println("1. EventId: " +eventId);
         System.out.println("2. Title: " +title);
-        System.out.println("3. main.java.Event date: " +dateTime);
-        System.out.println("4. main.java.Event Location: " +location);
-        System.out.println("5. main.java.Event capacity: " +capacity);
-        System.out.println("6. main.java.Event Status: " +status);
+        System.out.println("3. Event date: " +dateTime);
+        System.out.println("4. Event Location: " +location);
+        System.out.println("5. Event capacity: " +capacity);
+        System.out.println("6. Event Status: " +status);
     }
 
 

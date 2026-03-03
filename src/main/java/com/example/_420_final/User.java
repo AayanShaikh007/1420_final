@@ -40,4 +40,75 @@ public class User {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Booking[] getUserBook() {
+        return userBook;
+    }
+
+    public void setUserBook(Booking[] userBook){
+        this.userBook = userBook;
+    }
+
+    public boolean isEmpty() {
+
+        if (userBook == null) {
+            return true;
+        }
+
+        for (Booking b : userBook) {
+            if (b != null) {
+                return false; // found a booking
+            }
+        }
+
+        return true; // all null
+    }
+    public boolean isFull() {
+
+        if (userBook == null) {
+            return false;
+        }
+
+        for (Booking book : userBook) {
+            if (book == null) {
+                return false; // found empty space
+            }
+        }
+
+        return true; // no empty spaces
+    }
+
+    public boolean alreadyIn(String eventId){
+        if(!isEmpty()){
+            for(Booking b: userBook){
+                if(b.getEventId().equalsIgnoreCase(eventId)){
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    }
+
+    public void cancelledBooked(String eventId){
+        for(int i =0; i< userBook.length; i++){
+            if(userBook[i] != null && userBook[i].getEventId().equalsIgnoreCase(eventId)){
+                userBook[i].setBookingStatus("Cancelled");
+                userBook[i] = null;
+            }
+        }
+    }
+
+    public void print(){
+        System.out.println("UserId: " + userId);
+        System.out.println("Email: " +email);
+        System.out.println("Name: " +name);
+        System.out.println("Bookings: ");
+        if(!isEmpty()){
+            for (Booking b: userBook){
+                b.print();
+            }
+        }
+    }
 }
+

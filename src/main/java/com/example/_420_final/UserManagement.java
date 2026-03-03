@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class UserManagement {
-    private static  ArrayList<User> userList= new ArrayList<User>();
-    public String userId, name, email, type;
-    public Scanner myObj = new Scanner(System.in);
-    public boolean unique;
+    private static  ArrayList<User> userList = new ArrayList<User>();
+    String userId, name, email, type;
+    Scanner myObj = new Scanner(System.in);
+    boolean unique;
 
 
     public UserManagement(){
@@ -16,13 +16,12 @@ public class UserManagement {
     public void createUser(){
         User user = new User();
         unique = true;
-        System.out.println("Create a user data needed: "); // change this when needed
+        System.out.println("Create a user data needed: ");
         while (unique){
-            System.out.print("main.java.Student\nStaff\nGuest\nType of user: ");
+            System.out.print("Student\nStaff\nGuest\nType of user: ");
             type = myObj.nextLine();
             unique = checkType(type);
         }
-        // here should be a set to add the type, but i need to ask something first.
 
         unique = true;
         while(unique){
@@ -42,11 +41,6 @@ public class UserManagement {
             unique = checkEmail(email);
         }
         unique = true;
-        while (unique){
-            System.out.print("main.java.Student\nStaff\nGuest\nType of user: ");
-            type = myObj.nextLine();
-            unique = checkType(type);
-        }
         user.setUserId(userId);
         user.setName(name);
         user.setEmail(email);
@@ -63,16 +57,23 @@ public class UserManagement {
     }
 
     public void viewUser(String userId){ // when making the GUI this should be changed to a return user to give each data to the GUI
+
+        User user = getUser(userId);
+        if((user != null)){
+            user.print();
+        }
+
+    }
+    public User getUser(String userId){
+        if(!(userList == null)){
         for(User user : userList){
-            if (userId.equals(user.getUserId())) {
-                System.out.println(user.getUserId());
-                System.out.println(user.getEmail());
-                System.out.println(user.getName());
-                //probably type too and bookings
+            if(userId.equals(user.getUserId())){
+                return user;
             }
         }
     }
-
+        return null;
+    }
     public void ListUsers(){
         for(User user : userList){
             System.out.println(user.getUserId()); // when making the gui this can be changed to show them better organize
@@ -112,7 +113,7 @@ public class UserManagement {
 
     }
 
-    public ArrayList<User> getUserList(){
+    public static ArrayList<User> getUserList(){
         return userList;
     }
 }

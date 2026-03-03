@@ -6,20 +6,22 @@ import java.util.Scanner;
 
 public class EventManagement {
     private static ArrayList<Event> eventList= new ArrayList<Event>();
-    public String eventId;
-    public String title;
-    public String dateTime;
-    public String location;
-    public int capacity;
-    public String  status; // Active / Cancelled
-    public String type;
-    public String typedata;
-    public Scanner myObj = new Scanner(System.in);
-    public boolean unique, unending;
-    public int update;
-
+    String eventId;
+    String title;
+    String dateTime;
+    String location;
+    int capacity;
+    String  status; // Active / Cancelled
+    String type;
+    String typedata;
+    Scanner myObj = new Scanner(System.in);
+    boolean unique, unending;
+    int update;
+    ArrayList<Booking> blist = BookingManagement.getBookingList();
     public EventManagement(){
     }
+
+
 
     public void createEvent(){
         unique = true;
@@ -36,7 +38,7 @@ public class EventManagement {
         unique = true;
 
         while (unique){
-            System.out.print("main.java.Event date and time (dd/MM/yyyy HH:mm): ");
+            System.out.print("Event date and time (dd/MM/yyyy HH:mm): ");
             dateTime = myObj.nextLine();
             unique = checkDate(dateTime);
         }
@@ -46,23 +48,25 @@ public class EventManagement {
         unique = true;
 
         while (unique){
-            System.out.println("main.java.Event capacity (needs to be more than 1): ");
+            System.out.println("Event capacity (needs to be more than 1): ");
             capacity = myObj.nextInt();
+            myObj.nextLine();
             unique = checkCapacity(capacity);
         }
         unique = true;
 
         while (unique){
-            System.out.print("main.java.Event status (Active / Cancelled): ");
+            System.out.print("Event status (Active / Cancelled): ");
             status = myObj.nextLine();
             unique = checkStatus(status);
         }
         unique = true;
         while (unique){
-            System.out.print("main.java.Workshop\nSeminar\nmain.java.Concert\nType of event: ");
+            System.out.print("Workshop\nSeminar\nConcert\nType of event: ");
             type = myObj.nextLine();
             unique = checkType(type);
         }
+
         typedata = checkDataType(type);
 
         if(type.equalsIgnoreCase("workshop")){
@@ -79,28 +83,33 @@ public class EventManagement {
 
     }
 
-    public void updateEvent(){
+    public void updateEvent(String eventId){
         unending= unique = true;
         Event event;
-        while (true){
-            System.out.print("Write the id of the event you want to update: ");
-            eventId = myObj.nextLine();
-            event = getEvent(eventId);
-            if(event != null){
-                break;
-            }else {
-                System.out.println("The id writen was not found");
+        if(eventId.equalsIgnoreCase("")) {
+            while (true) {
+                System.out.print("Write the id of the event you want to update: ");
+                eventId = myObj.nextLine();
+                event = getEvent(eventId);
+                if (event != null) {
+                    break;
+                } else {
+                    System.out.println("The id writen was not found");
+                }
             }
+        }else {
+            event = getEvent(eventId);
         }
         while (unending){
-        System.out.println("main.java.Event Data: \n");
+        System.out.println("Event Data: \n");
         event.printOrder();
         System.out.println("8. Exit");
 
-        while (unique){
+        while (unending){
             System.out.print("Which data you want to update (write the number): ");
             update = myObj.nextInt();
-            unique = checkupdate(update);
+            myObj.nextLine();
+            unending = checkUpdate(update);
         }
         unique = true;
         switch (update){
@@ -114,11 +123,11 @@ public class EventManagement {
                 break;
             case 2:
                 System.out.print("new title: ");
-                event.setEventId(myObj.nextLine());
+                event.setTitle(myObj.nextLine());
                 break;
             case 3:
                 while (unique){
-                    System.out.print("main.java.Event date and time (dd/MM/yyyy HH:mm): ");
+                    System.out.print("Event date and time (dd/MM/yyyy HH:mm): ");
                     dateTime = myObj.nextLine();
                     unique = checkDate(dateTime);
                 }
@@ -126,56 +135,85 @@ public class EventManagement {
                 break;
             case 4:
                 System.out.print("New Location: ");
-                event.setEventId(myObj.nextLine());
+                event.setLocation(myObj.nextLine());
                 break;
             case 5:
                 while (unique){
-                    System.out.println("main.java.Event capacity (needs to be more than 1): ");
+                    System.out.println("Event capacity (needs to be more than 1): ");
                     capacity = myObj.nextInt();
+                    myObj.nextLine();
                     unique = checkCapacity(capacity);
                 }
                 event.setCapacity(capacity);
                 break;
             case 6:
                 while (unique){
-                    System.out.print("main.java.Event status (Active / Cancelled): ");
+                    System.out.print("Event status (Active / Cancelled): ");
                     status = myObj.nextLine();
                     unique = checkStatus(status);
                 }// if cancelled add the method cancel after creating it
+                if(status.equalsIgnoreCase("Cancelled")){
+                    cancelEvent(eventId);
+
+                }
                 event.setStatus(status);
+
                 break;
             case 7:
                 while (unique){
-                    System.out.print("main.java.Workshop\nSeminar\nmain.java.Concert\nType of event: ");
-                    type = myObj.nextLine();
-                    unique = checkType(type);
-                }
+                    if(event instanceof Workshop){
 
-                event.setSpecificData(type);
+                        typedata = checkDataType("workshop");
+                    }else if(event instanceof Seminar){
+                        typedata = checkDataType("seminar");
+                    }else if(event instanceof Concert){
+                        typedata = checkDataType("concert");
+                    }
+                    unique = false;
+                }
+                event.setSpecificData(typedata);
                 break;
             case 8:
                 unending =false;
+                unique = false;
                 break;
-        }}
+            default:
+                break;
+        }
+        }
 
 
 
     }
 
-    public void cancelEvent(){
+    public void cancelEvent(String eventId){
         Event event;
-        while (true){
-            System.out.print("Write the id of the event you want to update: ");
-            eventId = myObj.nextLine();
+        UserManagement u =new UserManagement();
+        if(eventId.equalsIgnoreCase("")){
+            while (true){
+                System.out.print("Write the id of the event you want to Cancel: ");
+                eventId = myObj.nextLine();
+                event = getEvent(eventId);
+                if(event != null){
+                    break;
+                }else {
+                    System.out.println("The id writen was not found");
+                }
+            }
+        }else{
             event = getEvent(eventId);
-            if(event != null){
-                break;
-            }else {
-                System.out.println("The id writen was not found");
+        }
+
+        event.setStatus("Cancelled");
+        if(!blist.isEmpty()){
+            for(Booking b: blist){
+                if(b.getEventId().equalsIgnoreCase(eventId)){
+                    u.getUser(b.getUserId()).cancelledBooked(eventId);
+                }
             }
         }
-        event.setStatus("Cancelled");
-        //cancelled the booking when we get that.
+
+        //cancelled from the waitlist too, when added
 
     }
     public Event getEvent(String eventId){
@@ -223,15 +261,15 @@ public class EventManagement {
 
     public boolean checkCapacity(int capacity){
         if (capacity> 0){
-            return true;
+            return false;
         }else {
             System.out.println("Capacity needs to be at least 1.");
-            return false;
+            return true;
         }
     }
 
-    public boolean checkupdate(int update) {
-        return (update > 0 && update <=7);
+    public boolean checkUpdate(int update) {
+        return !(update > 0 && update <=7);
     }
 
     public boolean checkStatus(String status){
@@ -259,7 +297,9 @@ public class EventManagement {
 
     public void listEvent(){
         for (Event e : eventList){
+            System.out.println("");
             e.print();
+            System.out.println("");
         } // we need to change this when we get the gui
     }
 
@@ -282,7 +322,7 @@ public class EventManagement {
                 if (event instanceof Seminar) {
                     event.print();
                 }
-            }else if(type.equalsIgnoreCase("main.java.Concert")){
+            }else if(type.equalsIgnoreCase("Concert")){
                 if (event instanceof Concert) {
                     event.print();
                 }
@@ -290,6 +330,9 @@ public class EventManagement {
                 // This one needs to change when we get the GUI
         }
 
+    }
+    public static  ArrayList<Event> getEventList() {
+        return eventList;
     }
     /*
 ● Cancel an event: Mark an event as Cancelled so it is no longer bookable.

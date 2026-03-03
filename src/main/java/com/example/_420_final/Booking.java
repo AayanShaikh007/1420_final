@@ -19,6 +19,13 @@ public class Booking {
         this.bookingStatus = bookingStatus;
     }
 
+    public void print(){
+        System.out.println(this.bookingId);
+        System.out.println(this.eventId);
+        System.out.println(this.createdAt);
+        System.out.println(this.bookingStatus);
+    }
+
     public String getBookingId() {
         return bookingId;
     }
