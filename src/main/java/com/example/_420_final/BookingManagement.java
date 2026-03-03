@@ -17,13 +17,43 @@ public class BookingManagement {
     public void bookEvent(String userId, String eventId){
         Event event = e.getEvent(eventId);
         User user = u.getUser(userId);
+
+        if (event == null) {
+            System.out.println("Event not found");
+            return;
+        }
+        if (user == null) {
+            System.out.println("User not found");
+            return;
+        }
+        if (event.getStatus() != null && event.getStatus().equalsIgnoreCase("cancelled")) {
+            System.out.println("Event is cancelled; no new bookings allowed.");
+            return;
+        }
+
         if(user.alreadyIn(eventId)){
             System.out.println("You have already booked this event");
         } else if(event.getCapacity() == 0){
-            System.out.println("The event is full, you will be wait listed"); // add waitlist code
-        }else if(user.isFull()) {
-            System.out.println("Your allowed booking are full, you will be wait listed for this event");// add waitlist code
-        }else{
+            System.out.println("The event is full, you will be wait listed");
+
+            String bookingId = generateUniqueId();
+            String formattedTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            Booking waitlisted = new Booking(bookingId, userId, eventId, formattedTime, "Waitlisted");
+
+            bookingList.add(waitlisted);
+            WaitListManagement.addToWaitlist(waitlisted);
+
+        } else if(user.isFull()) {
+            System.out.println("Your allowed booking are full, you will be wait listed for this event");
+
+            String bookingId = generateUniqueId();
+            String formattedTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+            Booking waitlisted = new Booking(bookingId, userId, eventId, formattedTime, "Waitlisted");
+
+            bookingList.add(waitlisted);
+            WaitListManagement.addToWaitlist(waitlisted);
+
+        } else {
             if(event instanceof Concert){
                 System.out.println("The Age Restriction for this event is " + ((Concert) event).getAgeRestriction());
             }
@@ -35,9 +65,7 @@ public class BookingManagement {
                     for(int i = 0; i < user.getUserBook().length; i++){
                         if(user.getUserBook()[i] == null){
                             String bookingId = generateUniqueId();
-                            LocalTime time = LocalTime.now();
-                            DateTimeFormatter format = DateTimeFormatter.ofPattern("HH:mm:ss");
-                            String formattedTime = time.format(format);
+                            String formattedTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
                             Booking tempBooked = new Booking(bookingId, userId, eventId, formattedTime, "Confirmed");
                             user.getUserBook()[i] = tempBooked;
                             bookingList.add(tempBooked);
@@ -61,22 +89,44 @@ public class BookingManagement {
     public void cancelEvent(String userId, String eventId){
         boolean test = true;
         User user = u.getUser(userId);
-        Event event =e.getEvent(eventId);
+        Event event = e.getEvent(eventId);
+
+        if (event == null) {
+            System.out.println("Event not found");
+            return;
+        }
+        if (user == null) {
+            System.out.println("User not found");
+            return;
+        }
 
         while (test){
             System.out.println("Are you sure you want to cancelled (Y/N):");
             String ans = myObj.nextLine();
             if (ans.equalsIgnoreCase("y")){
                 user.cancelledBooked(eventId);
-                // add wait list here in the next if statement
-                //if(waitlist.isEmpty){
-                //  event.setCapacity(event.getCapacity+1);
-                // }else{
-                // code for waitlist here
-                // }
+
+                // If there is someone on the waitlist, promote them; otherwise free a seat
+                Booking promoted = WaitListManagement.promoteNext(eventId);
+                if (promoted == null) {
+                    event.setCapacity(event.getCapacity() + 1);
+                } else {
+                    // Optional: actually put promoted booking into the user's confirmed bookings array
+                    User promotedUser = u.getUser(promoted.getUserId());
+                    if (promotedUser != null) {
+                        for (int i = 0; i < promotedUser.getUserBook().length; i++) {
+                            if (promotedUser.getUserBook()[i] == null) {
+                                promotedUser.getUserBook()[i] = promoted;
+                                break;
+                            }
+                        }
+                    }
+                    System.out.println("Automatic promotion occurred: " + promoted.getUserId() + " promoted for event " + eventId);
+                }
+
                 test = false;
             }else if (ans.equalsIgnoreCase("n")){
-                System.out.println("The event is still going"); // change later
+                System.out.println("The event is still going");
                 test = false;
             }else{
                 System.out.println("the answer given is not accepted please try again.");
@@ -138,5 +188,77 @@ public class BookingManagement {
 
     public static ArrayList<Booking> getBookingList() {
         return bookingList;
+    }
+
+    /**
+     * GUI-friendly booking: no console prompts.
+     * Returns a human-readable result message for the UI.
+     */
+    public String bookEventGui(String userId, String eventId) {
+        Event event = e.getEvent(eventId);
+        User user = u.getUser(userId);
+
+        if (event == null) return "Event not found";
+        if (user == null) return "User not found";
+        if (event.getStatus() != null && event.getStatus().equalsIgnoreCase("cancelled")) {
+            return "Event is cancelled; no new bookings allowed.";
+        }
+        if (user.alreadyIn(eventId)) {
+            return "User already has a booking for this event.";
+        }
+
+        String bookingId = generateUniqueId();
+        String formattedTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        if (event.getCapacity() == 0 || user.isFull()) {
+            Booking waitlisted = new Booking(bookingId, userId, eventId, formattedTime, "Waitlisted");
+            bookingList.add(waitlisted);
+            WaitListManagement.addToWaitlist(waitlisted);
+            return "Created WAITLISTED booking (" + bookingId + ").";
+        }
+
+        Booking confirmed = new Booking(bookingId, userId, eventId, formattedTime, "Confirmed");
+        for (int i = 0; i < user.getUserBook().length; i++) {
+            if (user.getUserBook()[i] == null) {
+                user.getUserBook()[i] = confirmed;
+                break;
+            }
+        }
+        bookingList.add(confirmed);
+        event.setCapacity(event.getCapacity() - 1);
+        return "Created CONFIRMED booking (" + bookingId + ").";
+    }
+
+    /**
+     * GUI-friendly cancellation: cancels the user's confirmed booking for eventId if present,
+     * then promotes from waitlist if possible.
+     */
+    public String cancelBookingGui(String userId, String eventId) {
+        Event event = e.getEvent(eventId);
+        User user = u.getUser(userId);
+
+        if (event == null) return "Event not found";
+        if (user == null) return "User not found";
+
+        // Cancel confirmed booking held in user's array
+        user.cancelledBooked(eventId);
+
+        Booking promoted = WaitListManagement.promoteNext(eventId);
+        if (promoted == null) {
+            event.setCapacity(event.getCapacity() + 1);
+            return "Cancelled booking. No one to promote; capacity increased.";
+        }
+
+        // Put promoted booking into promoted user's confirmed booking array
+        User promotedUser = u.getUser(promoted.getUserId());
+        if (promotedUser != null) {
+            for (int i = 0; i < promotedUser.getUserBook().length; i++) {
+                if (promotedUser.getUserBook()[i] == null) {
+                    promotedUser.getUserBook()[i] = promoted;
+                    break;
+                }
+            }
+        }
+        return "Cancelled booking. Promotion happened: userId=" + promoted.getUserId() + " for eventId=" + eventId;
     }
 }
