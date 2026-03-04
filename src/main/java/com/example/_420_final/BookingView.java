@@ -13,26 +13,24 @@ public class BookingView extends VBox {
         setSpacing(10);
         setPadding(new Insets(20));
 
-        // TITLE
+        // title
         Label title = new Label("Booking Management");
         title.setStyle("-fx-font-size:18px; -fx-font-weight:bold;");
 
-        // INPUTS
+        // the inputs
         TextField userIdField = new TextField();
         userIdField.setPromptText("User ID");
 
         TextField eventIdField = new TextField();
         eventIdField.setPromptText("Event ID");
 
-        // BUTTONS
+        //buttons
         Button bookBtn = new Button("Book Event");
         Button cancelBtn = new Button("Cancel Booking");
 
         Label resultLabel = new Label();
 
-        // ======================
-        // BOOK EVENT ACTION
-        // ======================
+        // book an event action
         bookBtn.setOnAction(e -> {
 
             String userId = userIdField.getText();
@@ -44,9 +42,7 @@ public class BookingView extends VBox {
             resultLabel.setText(result);
         });
 
-        // ======================
-        // CANCEL BOOKING ACTION
-        // ======================
+        // CANCELs the booking action
         cancelBtn.setOnAction(e -> {
 
             String userId = userIdField.getText();
@@ -58,7 +54,7 @@ public class BookingView extends VBox {
             resultLabel.setText(result);
         });
 
-        // ADD EVERYTHING
+        // adds eveyrthing
         getChildren().addAll(
                 title,
                 new Label("User ID"),
