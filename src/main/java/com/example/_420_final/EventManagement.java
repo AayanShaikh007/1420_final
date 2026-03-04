@@ -21,7 +21,55 @@ public class EventManagement {
     public EventManagement(){
     }
 
+    public String createEventGui(String type, String id, String title, String date, String loc, String cap, String specificData) {
+        // 1. Validate ID
+        if (checkId(id)) {
+            return "Error: Event ID '" + id + "' already exists.";
+        }
 
+        // 2. Validate Date Format (uses your existing checkDate method)
+        if (checkDate(date)) {
+            return "Error: Format must be dd/MM/yyyy HH:mm";
+        }
+
+        // 3. Validate Capacity
+        int capacity;
+        try {
+            capacity = Integer.parseInt(cap);
+            if (checkCapacity(capacity)) {
+                return "Error: Capacity must be at least 1.";
+            }
+        } catch (NumberFormatException e) {
+            return "Error: Capacity must be a number.";
+        }
+
+        // 4. Create the specific object (Polymorphism)
+        Event newEvent;
+        String status = "Active"; // Default for new events
+
+        switch (type.toLowerCase()) {
+            case "workshop":
+                newEvent = new Workshop(id, title, date, loc, capacity, status, specificData);
+                break;
+            case "seminar":
+                newEvent = new Seminar(id, title, date, loc, capacity, status, specificData);
+                break;
+            case "concert":
+                try {
+                    int age = Integer.parseInt(specificData);
+                    newEvent = new Concert(id, title, date, loc, capacity, status, age);
+                } catch (NumberFormatException e) {
+                    return "Error: Age restriction must be a number.";
+                }
+                break;
+            default:
+                return "Error: Invalid Event Type.";
+        }
+
+        // 5. Save to the static list
+        eventList.add(newEvent);
+        return "Successfully created " + type + ": " + title;
+    }
 
     public void createEvent(){
         unique = true;
