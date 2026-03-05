@@ -16,11 +16,16 @@ public class EventView extends VBox {
         titleLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
         // Input Fields
-        TextField idField = new TextField(); idField.setPromptText("Event ID (e.g., E001)");
-        TextField titleField = new TextField(); titleField.setPromptText("Event Title");
-        TextField dateField = new TextField(); dateField.setPromptText("Date (dd/MM/yyyy HH:mm)");
-        TextField locField = new TextField(); locField.setPromptText("Location");
-        TextField capField = new TextField(); capField.setPromptText("Capacity");
+        TextField idField = new TextField();
+        idField.setPromptText("Event ID (e.g., E001)");
+        TextField titleField = new TextField();
+        titleField.setPromptText("Event Title");
+        TextField dateField = new TextField();
+        dateField.setPromptText("Date (dd/MM/yyyy HH:mm)");
+        TextField locField = new TextField();
+        locField.setPromptText("Location");
+        TextField capField = new TextField();
+        capField.setPromptText("Capacity");
 
         // Type selection and the "Specific Data" field required by your subclasses
         ComboBox<String> typeBox = new ComboBox<>(FXCollections.observableArrayList("Workshop", "Seminar", "Concert"));
@@ -47,13 +52,14 @@ public class EventView extends VBox {
                     dateField.getText(),
                     locField.getText(),
                     capField.getText(),
-                    specField.getText()
-            );
+                    specField.getText());
             statusLabel.setText(result);
 
             // Clear fields on success
             if (result.startsWith("Successfully")) {
-                idField.clear(); titleField.clear(); specField.clear();
+                idField.clear();
+                titleField.clear();
+                specField.clear();
             }
         });
 
@@ -61,7 +67,6 @@ public class EventView extends VBox {
                 titleLabel,
                 new Label("Event Details:"), idField, titleField, dateField, locField, capField,
                 new Label("Type Specifics:"), typeBox, specField,
-                addBtn, statusLabel
-        );
+                addBtn, statusLabel);
     }
 }
