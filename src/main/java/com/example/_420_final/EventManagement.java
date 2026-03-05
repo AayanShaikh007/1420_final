@@ -2,15 +2,12 @@ package com.example._420_final;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class EventManagement {
     private static ArrayList<Event> eventList = new ArrayList<>();
 
     public EventManagement() {}
-
-    // --- CONSOLE BRIDGE METHODS (Fixes "Cannot Find Symbol" errors in Main.java) ---
 
     public void createEvent() {
         System.out.println("Console creation redirected to GUI logic...");
@@ -38,7 +35,7 @@ public class EventManagement {
         System.out.println("Update logic placeholder for: " + eventId);
     }
 
-    // --- GUI LOGIC METHODS (Used by EventView.java) ---
+    // all the gui methods
 
     public String createEventGui(String type, String id, String title, String date, String loc, String cap, String specificData) {
         if (checkId(id)) return "Error: Event ID exists.";
@@ -87,7 +84,7 @@ public class EventManagement {
                 .collect(Collectors.toList());
     }
 
-    // --- UTILITIES ---
+    // utilities
 
     public Event getEvent(String eventId) {
         for (Event e : eventList) { if (e.getEventId().equalsIgnoreCase(eventId)) return e; }
