@@ -190,10 +190,7 @@ public class BookingManagement {
         return bookingList;
     }
 
-    /**
-     * GUI-friendly booking: no console prompts.
-     * Returns a human-readable result message for the UI.
-     */
+
     public String bookEventGui(String userId, String eventId) {
         Event event = e.getEvent(eventId);
         User user = u.getUser(userId);
@@ -229,10 +226,7 @@ public class BookingManagement {
         return "Created CONFIRMED booking (" + bookingId + ").";
     }
 
-    /**
-     * GUI-friendly cancellation: cancels the user's confirmed booking for eventId if present,
-     * then promotes from waitlist if possible.
-     */
+
     public String cancelBookingGui(String userId, String eventId) {
         Event event = e.getEvent(eventId);
         User user = u.getUser(userId);

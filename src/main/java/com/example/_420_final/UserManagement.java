@@ -14,10 +14,7 @@ public class UserManagement {
         userList.add(user);
     }
 
-    /**
-     * GUI-friendly method to create users.
-     * Fulfills Phase 1: Validates ID/Email and handles Inheritance (Student/Staff/Guest).
-     */
+
     public String createUserGui(String type, String userId, String name, String email) {
         // 1. Validation Logic
         if (checkType(type)) {

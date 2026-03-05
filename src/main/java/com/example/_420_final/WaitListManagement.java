@@ -40,10 +40,7 @@ public class WaitListManagement {
         return removed;
     }
 
-    /**
-     * Promotes the first waitlisted booking (FIFO) to Confirmed.
-     * Returns the promoted booking or null if none exists.
-     */
+
     public static Booking promoteNext(String eventId) {
         Deque<Booking> q = waitlistsByEventId.get(eventId); //checks waitlist queue for that event
         if (q == null || q.isEmpty()) return null;
