@@ -12,7 +12,7 @@ public class UserView extends VBox {
     private final UserManagement userManagement = new UserManagement();
     private final EventManagement eventManagement = new EventManagement();
 
-    // Add User form
+    // Add User form elements
     private final ComboBox<String> typeCombo = new ComboBox<>(
             FXCollections.observableArrayList("Student", "Staff", "Guest")
     );
@@ -21,7 +21,7 @@ public class UserView extends VBox {
     private final TextField emailField = new TextField();
     private final Label statusLabel = new Label();
 
-    // List + details
+    // List + details elements
     private final ListView<User> userListView = new ListView<>();
     private final Label detailsLabel = new Label("Select a user to view details.");
     private final ListView<String> bookingsListView = new ListView<>();
@@ -33,6 +33,7 @@ public class UserView extends VBox {
         Label title = new Label("User Management");
         title.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
+        // UI Setup
         typeCombo.setValue("Student");
         userIdField.setPromptText("User ID");
         nameField.setPromptText("Name");
@@ -58,6 +59,7 @@ public class UserView extends VBox {
         form.setPadding(new Insets(10));
         form.setStyle("-fx-border-color: #d0d0d0; -fx-border-radius: 4; -fx-background-radius: 4;");
 
+        // Custom Cell Factory to display User info nicely in the list
         userListView.setCellFactory(lv -> new ListCell<>() {
             @Override
             protected void updateItem(User u, boolean empty) {
@@ -70,6 +72,7 @@ public class UserView extends VBox {
             }
         });
 
+        // listener for selecting a user
         userListView.getSelectionModel().selectedItemProperty().addListener((obs, oldV, newV) -> {
             if (newV != null) showUserDetails(newV);
         });
@@ -92,56 +95,42 @@ public class UserView extends VBox {
         HBox.setHgrow(detailsPane, Priority.ALWAYS);
 
         getChildren().addAll(title, main);
-
         refreshUsers();
     }
 
+    /**
+     * Updated addUser calls the backend createUserGui method.
+     * This keeps the validation logic in UserManagement.java where it belongs.
+     */
     private void addUser() {
         String type = safe(typeCombo.getValue());
         String userId = safe(userIdField.getText());
         String name = safe(nameField.getText());
         String email = safe(emailField.getText());
 
-        if (type.isBlank() || userId.isBlank() || name.isBlank() || email.isBlank()) {
-            statusLabel.setText("Fill in Type, User ID, Name, and Email.");
+        if (userId.isEmpty() || name.isEmpty() || email.isEmpty()) {
+            statusLabel.setText("Fill in User ID, Name, and Email.");
             return;
         }
 
-        // Reuse your existing validation methods
-        if (userManagement.checkType(type)) {
-            statusLabel.setText("Invalid type. Use Student / Staff / Guest.");
-            return;
-        }
-        if (userManagement.checkId(userId)) {
-            statusLabel.setText("User ID already exists. Choose a unique one.");
-            return;
-        }
-        if (userManagement.checkEmail(email)) {
-            statusLabel.setText("Invalid email format.");
-            return;
-        }
+        // Delegate to UserManagement
+        String result = userManagement.createUserGui(type, userId, name, email);
+        statusLabel.setText(result);
 
-        // Create correct subclass so booking capacity comes from your classes
-        User newUser;
-        if (type.equalsIgnoreCase("student")) {
-            newUser = new Student(userId, name, email);
-        } else if (type.equalsIgnoreCase("staff")) {
-            newUser = new Staff(userId, name, email);
-        } else {
-            newUser = new Guest(userId, name, email);
+        // If successful, clean the fields and update list
+        if (result.startsWith("Success")) {
+            userIdField.clear();
+            nameField.clear();
+            emailField.clear();
+            refreshUsers();
+
+            // Find the newly created user to highlight them
+            User newUser = userManagement.getUser(userId);
+            if (newUser != null) {
+                userListView.getSelectionModel().select(newUser);
+                userListView.scrollTo(newUser);
+            }
         }
-
-        userManagement.addUser(newUser);
-        statusLabel.setText("Added: " + newUser.getUserId() + " (" + userTypeOf(newUser) + ")");
-
-        userIdField.clear();
-        nameField.clear();
-        emailField.clear();
-        typeCombo.setValue("Student");
-
-        refreshUsers();
-        userListView.getSelectionModel().select(newUser);
-        userListView.scrollTo(newUser);
     }
 
     private void refreshUsers() {
@@ -165,18 +154,18 @@ public class UserView extends VBox {
 
                 bookingsListView.getItems().add(
                         b.getEventId() + " - " + title +
-                        " | status=" + b.getBookingStatus() +
-                        " | time=" + b.getCreatedAt()
+                                " | status=" + b.getBookingStatus() +
+                                " | time=" + b.getCreatedAt()
                 );
             }
         }
 
         detailsLabel.setText(
                 "User ID: " + nvl(user.getUserId()) +
-                "\nName: " + nvl(user.getName()) +
-                "\nEmail: " + nvl(user.getEmail()) +
-                "\nType: " + userTypeOf(user) +
-                "\nBookings: " + used + " / " + capacity
+                        "\nName: " + nvl(user.getName()) +
+                        "\nEmail: " + nvl(user.getEmail()) +
+                        "\nType: " + userTypeOf(user) +
+                        "\nBookings: " + used + " / " + capacity
         );
     }
 
