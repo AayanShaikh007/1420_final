@@ -24,7 +24,7 @@ public class BookingView extends VBox {
         TextField eventIdField = new TextField();
         eventIdField.setPromptText("Event ID");
 
-        //buttons
+        // buttons
         Button bookBtn = new Button("Book Event");
         Button cancelBtn = new Button("Cancel Booking");
 
@@ -36,8 +36,7 @@ public class BookingView extends VBox {
             String userId = userIdField.getText();
             String eventId = eventIdField.getText();
 
-            String result =
-                    bookingManager.bookEventGui(userId, eventId);
+            String result = bookingManager.bookEventGui(userId, eventId);
 
             resultLabel.setText(result);
         });
@@ -48,8 +47,7 @@ public class BookingView extends VBox {
             String userId = userIdField.getText();
             String eventId = eventIdField.getText();
 
-            String result =
-                    bookingManager.cancelBookingGui(userId, eventId);
+            String result = bookingManager.cancelBookingGui(userId, eventId);
 
             resultLabel.setText(result);
         });
@@ -64,7 +62,6 @@ public class BookingView extends VBox {
                 bookBtn,
                 cancelBtn,
                 new Separator(),
-                resultLabel
-        );
+                resultLabel);
     }
 }
