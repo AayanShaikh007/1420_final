@@ -1,4 +1,9 @@
-package com.example._420_final;
+package com.example._420_final.Management;
+
+import com.example._420_final.Control.Guest;
+import com.example._420_final.Control.Staff;
+import com.example._420_final.Control.Student;
+import com.example._420_final.Control.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +53,7 @@ public class UserManagement {
         return "Success: Added " + name + " (" + type + ")";
     }
 
-    public User getUser(String userId) {
+    public static User getUser(String userId) {
         if (userList != null) {
             for (User user : userList) {
                 if (userId.equals(user.getUserId())) {

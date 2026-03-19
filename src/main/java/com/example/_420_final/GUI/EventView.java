@@ -1,5 +1,7 @@
-package com.example._420_final;
+package com.example._420_final.GUI;
 
+import com.example._420_final.Control.Event;
+import com.example._420_final.Management.EventManagement;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -36,7 +38,7 @@ public class EventView extends VBox {
         typeCombo.setValue("Workshop");
         idField.setPromptText("Event ID");
         titleField.setPromptText("Title");
-        dateField.setPromptText("dd/MM/yyyy HH:mm");
+        dateField.setPromptText("yyyy-MM-ddTHH:mm");
         locField.setPromptText("Location");
         capField.setPromptText("Capacity");
         specField.setPromptText("Topic / Speaker / Age");

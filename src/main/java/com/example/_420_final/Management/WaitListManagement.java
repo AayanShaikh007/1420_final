@@ -1,4 +1,6 @@
-package com.example._420_final;
+package com.example._420_final.Management;
+
+import com.example._420_final.Control.Booking;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;

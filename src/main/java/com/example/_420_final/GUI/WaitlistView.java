@@ -1,5 +1,12 @@
-package com.example._420_final;
+package com.example._420_final.GUI;
 
+import com.example._420_final.Control.Booking;
+import com.example._420_final.Control.Event;
+import com.example._420_final.Control.User;
+import com.example._420_final.Control.WaitlistRow;
+import com.example._420_final.Management.EventManagement;
+import com.example._420_final.Management.UserManagement;
+import com.example._420_final.Management.WaitListManagement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

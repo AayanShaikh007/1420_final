@@ -1,5 +1,6 @@
-package com.example._420_final;
+package com.example._420_final.GUI;
 
+import com.example._420_final.Management.BookingManagement;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;

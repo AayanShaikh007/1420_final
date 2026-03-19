@@ -1,4 +1,4 @@
-package com.example._420_final;
+package com.example._420_final.Control;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

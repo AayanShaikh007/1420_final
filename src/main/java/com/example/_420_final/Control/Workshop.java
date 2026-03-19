@@ -1,4 +1,4 @@
-package com.example._420_final;
+package com.example._420_final.Control;
 
 public class Workshop extends Event {
     private String topic;

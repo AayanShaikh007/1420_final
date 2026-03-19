@@ -1,5 +1,11 @@
-package com.example._420_final;
+package com.example._420_final.Management;
 
+import com.example._420_final.Control.Booking;
+import com.example._420_final.Control.Concert;
+import com.example._420_final.Control.Event;
+import com.example._420_final.Control.User;
+
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -37,8 +43,8 @@ public class BookingManagement {
             System.out.println("The event is full, you will be wait listed");
 
             String bookingId = generateUniqueId();
-            String formattedTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-            Booking waitlisted = new Booking(bookingId, userId, eventId, formattedTime, "Waitlisted");
+            String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            Booking waitlisted = new Booking(bookingId, userId, eventId, formattedDateTime, "Waitlisted");
 
             bookingList.add(waitlisted);
             WaitListManagement.addToWaitlist(waitlisted);
@@ -47,8 +53,8 @@ public class BookingManagement {
             System.out.println("Your allowed booking are full, you will be wait listed for this event");
 
             String bookingId = generateUniqueId();
-            String formattedTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-            Booking waitlisted = new Booking(bookingId, userId, eventId, formattedTime, "Waitlisted");
+            String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+            Booking waitlisted = new Booking(bookingId, userId, eventId, formattedDateTime, "Waitlisted");
 
             bookingList.add(waitlisted);
             WaitListManagement.addToWaitlist(waitlisted);
@@ -65,8 +71,8 @@ public class BookingManagement {
                     for(int i = 0; i < user.getUserBook().length; i++){
                         if(user.getUserBook()[i] == null){
                             String bookingId = generateUniqueId();
-                            String formattedTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-                            Booking tempBooked = new Booking(bookingId, userId, eventId, formattedTime, "Confirmed");
+                            String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
+                            Booking tempBooked = new Booking(bookingId, userId, eventId, formattedDateTime, "Confirmed");
                             user.getUserBook()[i] = tempBooked;
                             bookingList.add(tempBooked);
                             break;
@@ -177,13 +183,6 @@ public class BookingManagement {
                 System.out.println(b.getUserId());
             }
         }
-        /*  This is just an idea of how it would work
-        System.out.println("WaitList List: ");
-        for(WaitList w: WaitList){
-            if(b.getEventId().equalsIgnoreCase(eventId)){
-                System.out.println(b.getUserId());
-            }
-        }*/
     }
 
     public static ArrayList<Booking> getBookingList() {
@@ -205,16 +204,16 @@ public class BookingManagement {
         }
 
         String bookingId = generateUniqueId();
-        String formattedTime = LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+        String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
 
         if (event.getCapacity() == 0 || user.isFull()) {
-            Booking waitlisted = new Booking(bookingId, userId, eventId, formattedTime, "Waitlisted");
+            Booking waitlisted = new Booking(bookingId, userId, eventId, formattedDateTime, "Waitlisted");
             bookingList.add(waitlisted);
             WaitListManagement.addToWaitlist(waitlisted);
             return "Created WAITLISTED booking (" + bookingId + ").";
         }
 
-        Booking confirmed = new Booking(bookingId, userId, eventId, formattedTime, "Confirmed");
+        Booking confirmed = new Booking(bookingId, userId, eventId, formattedDateTime, "Confirmed");
         for (int i = 0; i < user.getUserBook().length; i++) {
             if (user.getUserBook()[i] == null) {
                 user.getUserBook()[i] = confirmed;

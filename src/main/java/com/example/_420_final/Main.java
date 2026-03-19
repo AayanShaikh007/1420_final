@@ -1,5 +1,9 @@
 package com.example._420_final;
 
+import com.example._420_final.Management.BookingManagement;
+import com.example._420_final.Management.EventManagement;
+import com.example._420_final.Management.UserManagement;
+
 import java.util.Scanner;
 
 public class Main {

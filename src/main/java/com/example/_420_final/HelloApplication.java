@@ -1,5 +1,6 @@
 package com.example._420_final;
 
+import com.example._420_final.GUI.MainView;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

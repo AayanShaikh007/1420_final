@@ -1,8 +1,13 @@
-package com.example._420_final;
+package com.example._420_final.Management;
 
+import com.example._420_final.Control.*;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 public class EventManagement {
@@ -42,7 +47,7 @@ public class EventManagement {
 
     public String createEventGui(String type, String id, String title, String date, String loc, String cap, String specificData) {
         if (checkId(id)) return "Error: Event ID exists.";
-        if (checkDate(date)) return "Error: Use dd/MM/yyyy HH:mm";
+        if (checkDate(date)) return "Error: Use yyyy-MM-ddTHH:mm";
 
         int capacity;
         try {
@@ -56,7 +61,12 @@ public class EventManagement {
             case "seminar":  newEvent = new Seminar(id, title, date, loc, capacity, "Active", specificData); break;
             case "concert":
                 try {
-                    newEvent = new Concert(id, title, date, loc, capacity, "Active", Integer.parseInt(specificData));
+                    if(specificData.equalsIgnoreCase("all ages")){
+                        newEvent = new Concert(id, title, date, loc, capacity, "Active", specificData);
+                    }else {
+                        Integer.parseInt(specificData);
+                        newEvent = new Concert(id, title, date, loc, capacity, "Active", specificData);
+                    }
                 } catch (Exception e) { return "Error: Age must be a number."; }
                 break;
             default: return "Error: Invalid Type.";
@@ -69,7 +79,7 @@ public class EventManagement {
         Event event = getEvent(eventId);
         if (event == null) return "Error: Not found.";
         event.setStatus("Cancelled");
-        for (User u : UserManagement.getUserList()) { u.cancelledBooked(eventId); }
+        for (User u : UserManagement.getUserList()) { u.cancelledBooked(eventId); } //error here if no user is created
         WaitListManagement.getWaitlistForEvent(eventId).clear();
         return "Event " + eventId + " Cancelled.";
     }
@@ -89,7 +99,7 @@ public class EventManagement {
 
     // --- UTILITIES ---
 
-    public Event getEvent(String eventId) {
+    public static Event getEvent(String eventId) {
         for (Event e : eventList) { if (e.getEventId().equalsIgnoreCase(eventId)) return e; }
         return null;
     }
@@ -99,7 +109,14 @@ public class EventManagement {
     }
 
     public boolean checkDate(String date) {
-        return !date.matches("^\\d{2}/\\d{2}/\\d{4} ([01]\\d|2[0-3]):[0-5]\\d$");
+        try {
+            DateTimeFormatter formatter =
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+            LocalDateTime.parse(date, formatter);
+            return false;
+        } catch (DateTimeParseException e) {
+            return true;
+        }
     }
 
     public boolean checkCapacity(int cap) { return cap <= 0; }

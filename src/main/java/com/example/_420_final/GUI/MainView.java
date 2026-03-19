@@ -1,4 +1,4 @@
-package com.example._420_final;
+package com.example._420_final.GUI;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
