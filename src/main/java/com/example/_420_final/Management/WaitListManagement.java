@@ -61,9 +61,7 @@ public class WaitListManagement {
         return promoted;
     }
 
-    /**
-     * UI can call this after refresh to display the latest promotion message once.
-     */
+
     public static String consumeLastPromotionNotification() { //reads the msg then clears it so it doesn't show again and again
         String msg = lastPromotionNotification;
         lastPromotionNotification = null;
