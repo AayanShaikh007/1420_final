@@ -5,37 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8da27c26-5445-49ff-b835-a75f0d0e5576" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/FileManagement.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Files/README.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Files/events.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/Files/users.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Booking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/Booking.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/BookingManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/BookingManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/BookingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/BookingView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Concert.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/Concert.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/EventManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/EventView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/EventView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Guest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/Guest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Launcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Launcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/MainView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/MainView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Seminar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/Seminar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Staff.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/Staff.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/UserManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/UserManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/UserView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/UserView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/WaitList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/WaitList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/WaitListManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/WaitListManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/WaitlistRow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/WaitlistRow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/WaitlistView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/WaitlistView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Workshop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Control/Workshop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -166,7 +136,7 @@
       <option name="presentableId" value="Default" />
       <updated>1772719329501</updated>
       <workItem from="1772719329955" duration="674000" />
-      <workItem from="1773954593581" duration="9624000" />
+      <workItem from="1773954593581" duration="10301000" />
     </task>
     <servers />
   </component>
