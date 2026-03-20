@@ -157,4 +157,133 @@ public class FileManagement {
             e.printStackTrace();
         }
     }
+
+    public static void saveAll(){
+        saveUsersToCSV();
+        saveEventsToCSV();
+        saveBookingsToCSV();
+    }
+    public static void saveEventsToCSV(){
+        try(FileWriter writer = new FileWriter("src/main/resources/Files/events.csv");) {
+            writer.write("eventId,title,dateTime,location,capacity,status,eventType,topic,speakerName,ageRestriction\n");   // header
+            String line = "";
+            for (Event e: EventManagement.getEventList()){
+                if(e instanceof Concert){
+                    line = String.join(",",
+                            e.getEventId(),
+                            e.getTitle(),
+                            e.getDateTime().toString(),
+                            e.getLocation(),
+                            String.valueOf(e.getCapacity()),
+                            e.getStatus(),
+                            "Concert",
+                            "",   // empty field
+                            "",   // empty field
+                            ((Concert) e).getAgeRestriction()
+
+                    );
+                }
+                if(e instanceof Seminar){
+                    line = String.join(",",
+                            e.getEventId(),
+                            e.getTitle(),
+                            e.getDateTime().toString(),
+                            e.getLocation(),
+                            String.valueOf(e.getCapacity()),
+                            e.getStatus(),
+                            "Seminar",
+                            "",
+                            ((Seminar) e).getSpeakerName(),
+                            ""
+
+                    );
+                }
+                if(e instanceof Workshop){
+                    line = String.join(",",
+                            e.getEventId(),
+                            e.getTitle(),
+                            e.getDateTime().toString(),
+                            e.getLocation(),
+                            String.valueOf(e.getCapacity()),
+                            e.getStatus(),
+                            "Workshop",
+                            ((Workshop) e).getTopic(),
+                            "",   // empty field
+                            ""   // empty field
+
+                    );
+                }
+                writer.write(line);
+                writer.write("\n");
+            }
+
+            System.out.println("Events written successfully");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveUsersToCSV(){
+        try(FileWriter writer = new FileWriter("src/main/resources/Files/users.csv");) {
+            writer.write("userId,name,email,userType\n");   // header
+            String line = "";
+            for (User u: UserManagement.getUserList()){
+
+                if(u instanceof Staff){
+                    line = String.join(",",
+                            u.getUserId(),
+                            u.getName(),
+                            u.getEmail(),
+                            "Staff"
+                    );
+                }
+                if(u instanceof Student){
+                    line = String.join(",",
+                            u.getUserId(),
+                            u.getName(),
+                            u.getEmail(),
+                            "Student"
+                    );
+                }
+                if(u instanceof Guest){
+                    line = String.join(",",
+                            u.getUserId(),
+                            u.getName(),
+                            u.getEmail(),
+                            "Guest"
+                    );
+                }
+                writer.write(line);
+                writer.write("\n");
+            }
+
+            System.out.println("Users written successfully");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void saveBookingsToCSV(){
+        try(FileWriter writer = new FileWriter("src/main/resources/Files/bookings.csv");) {
+            writer.write("bookingId,userId,eventId,createdAt,bookingStatus\n");   // header
+            String line = "";
+            for (Booking b: BookingManagement.getBookingList()){
+                line = String.join(",",
+                        b.getBookingId(),
+                        b.getUserId(),
+                        b.getEventId(),
+                        b.getCreatedAt(),
+                        b.getBookingStatus()
+                );
+                writer.write(line);
+                writer.write("\n");
+            }
+            System.out.println("Bookings written successfully");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
