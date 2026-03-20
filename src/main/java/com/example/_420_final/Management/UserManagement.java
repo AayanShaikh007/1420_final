@@ -1,0 +1,126 @@
+package com.example._420_final.Management;
+
+import com.example._420_final.Control.Guest;
+import com.example._420_final.Control.Staff;
+import com.example._420_final.Control.Student;
+import com.example._420_final.Control.User;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class UserManagement {
+    private static ArrayList<User> userList = new ArrayList<User>();
+
+    public UserManagement() {
+    }
+
+    public void addUser(User user) {
+        userList.add(user);
+    }
+
+
+    public String createUserGui(String type, String userId, String name, String email) {
+        // 1. Validation Logic
+        if (checkType(type)) {
+            return "Error: Invalid type. Use Student, Staff, or Guest.";
+        }
+        if (checkId(userId)) {
+            return "Error: User ID already exists.";
+        }
+        if (checkEmail(email)) {
+            return "Error: Invalid email format.";
+        }
+
+        // 2. Polymorphic Object Creation
+        // This ensures the correct booking capacity is set (Student=3, Staff=5, Guest=1)
+        User newUser;
+        switch (type.toLowerCase()) {
+            case "student":
+                newUser = new Student(userId, name, email);
+                break;
+            case "staff":
+                newUser = new Staff(userId, name, email);
+                break;
+            case "guest":
+                newUser = new Guest(userId, name, email);
+                break;
+            default:
+                return "Error: Selection error.";
+        }
+
+        userList.add(newUser);
+        return "Success: Added " + name + " (" + type + ")";
+    }
+
+    public static User getUser(String userId) {
+        if (userList != null) {
+            for (User user : userList) {
+                if (userId.equals(user.getUserId())) {
+                    return user;
+                }
+            }
+        }
+        return null;
+    }
+
+    public boolean checkId(String userId) {
+        for (User user : userList) {
+            if (userId.equals(user.getUserId())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkType(String type) {
+        if (type == null) return true;
+        List<String> acceptable = List.of("student", "staff", "guest");
+        return !acceptable.contains(type.toLowerCase());
+    }
+
+    public boolean checkEmail(String email) {
+        String regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
+        return email == null || !email.matches(regex);
+    }
+
+    public static ArrayList<User> getUserList() {
+        return userList;
+    }
+
+    public void createUser() {
+        Scanner myObj = new Scanner(System.in);
+        System.out.println("Create a user (Student/Staff/Guest): ");
+        String type = myObj.nextLine();
+        System.out.print("User ID: ");
+        String id = myObj.nextLine();
+        System.out.print("Name: ");
+        String name = myObj.nextLine();
+        System.out.print("Email: ");
+        String email = myObj.nextLine();
+
+        // Call our GUI method to handle the actual creation logic
+        String result = createUserGui(type, id, name, email);
+        System.out.println(result);
+    }
+
+    public void viewUser(String userId) {
+        User user = getUser(userId);
+        if (user != null) {
+            user.print();
+        } else {
+            System.out.println("User with ID " + userId + " not found.");
+        }
+    }
+
+    public void ListUsers() {
+        if (getUserList().isEmpty()) {
+            System.out.println("No users in the system.");
+        } else {
+            for (User user : getUserList()) {
+                // This prints to the console for your old Main.java code
+                System.out.println("ID: " + user.getUserId() + " | Name: " + user.getName());
+            }
+        }
+    }
+}

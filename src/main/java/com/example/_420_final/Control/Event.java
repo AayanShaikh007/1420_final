@@ -1,4 +1,4 @@
-package com.example._420_final;
+package com.example._420_final.Control;
 
 public abstract class Event {
     private String eventId;

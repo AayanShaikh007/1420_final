@@ -1,4 +1,4 @@
-package com.example._420_final;
+package com.example._420_final.Control;
 
 public class User {
     private String userId;
@@ -81,13 +81,13 @@ public class User {
     public boolean alreadyIn(String eventId){
         if(!isEmpty()){
             for(Booking b: userBook){
+                if (b == null) continue;
                 if(b.getEventId().equalsIgnoreCase(eventId)){
                     return true;
                 }
             }
         }
         return false;
-
     }
 
     public void cancelledBooked(String eventId){

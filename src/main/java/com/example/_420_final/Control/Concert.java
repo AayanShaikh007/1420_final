@@ -1,12 +1,12 @@
-package com.example._420_final;
+package com.example._420_final.Control;
 
 public class Concert extends Event{
-    private int ageRestriction;
+    private String ageRestriction;
 
     public Concert(){
     }
 
-    public Concert(String eventId, String title, String dateTime, String location, int capacity, String status, int ageRestriction){
+    public Concert(String eventId, String title, String dateTime, String location, int capacity, String status, String ageRestriction){
         super(eventId, title, dateTime, location, capacity, status);
         this.ageRestriction = ageRestriction;
     }
@@ -21,7 +21,13 @@ public class Concert extends Event{
 
     @Override
     public void setSpecificData(String data) {
-        this.ageRestriction = Integer.parseInt(data);
+        try {
+            Integer.parseInt(data);
+            this.ageRestriction = data+ "+";
+        }catch (Exception e){
+            this.ageRestriction = data;
+        }
+
     }
 
     @Override
@@ -29,11 +35,11 @@ public class Concert extends Event{
         System.out.print(ageRestriction);;
     }
 
-    public int getAgeRestriction(){
+    public String getAgeRestriction(){
         return ageRestriction;
     }
 
-    public void setAgeRestriction(int ageRestriction){
+    public void setAgeRestriction(String ageRestriction){
         this.ageRestriction = ageRestriction;
     }
 }

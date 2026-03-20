@@ -1,4 +1,4 @@
-package com.example._420_final;
+package com.example._420_final.Control;
 
 import java.util.LinkedList;
 import java.util.Queue;
