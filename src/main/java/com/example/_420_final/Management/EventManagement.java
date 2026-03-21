@@ -39,62 +39,44 @@ public class EventManagement {
         for (Event e : filterByTypeGui(type)) { e.print(); }
     }
 
-    public void updateEvent(String eventId) {
-        System.out.println("Update logic placeholder for: " + eventId);
-    }
+    public String updateEventGui(String id, String title, String date, String loc, String cap, String specificData) {
+        Event event = getEvent(id);
+        if (event == null) return "Error: Event not found.";
 
-    // --- GUI LOGIC METHODS (Used by EventView.java) ---
-
-    public String createEventGui(String type, String id, String title, String date, String loc, String cap, String specificData) {
-        if (checkId(id)) return "Error: Event ID exists.";
-        if (checkDate(date)) return "Error: Use yyyy-MM-ddTHH:mm";
-
-        int capacity;
-        try {
-            capacity = Integer.parseInt(cap);
-            if (checkCapacity(capacity)) return "Error: Capacity > 0.";
-        } catch (Exception e) { return "Error: Capacity must be a number."; }
-
-        Event newEvent;
-        switch (type.toLowerCase()) {
-            case "workshop": newEvent = new Workshop(id, title, date, loc, capacity, "Active", specificData); break;
-            case "seminar":  newEvent = new Seminar(id, title, date, loc, capacity, "Active", specificData); break;
-            case "concert":
-                try {
-                    if(specificData.equalsIgnoreCase("all ages")){
-                        newEvent = new Concert(id, title, date, loc, capacity, "Active", specificData);
-                    }else {
-                        Integer.parseInt(specificData);
-                        newEvent = new Concert(id, title, date, loc, capacity, "Active", specificData);
-                    }
-                } catch (Exception e) { return "Error: Age must be a number."; }
-                break;
-            default: return "Error: Invalid Type.";
+        // validate date if changed
+        if (!date.isBlank() && !date.equalsIgnoreCase(event.getDateTime().toString())) {
+            if (checkDate(date)) return "Error: Use yyyy-MM-ddTHH:mm";
+            event.setDateTime(LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
         }
-        eventList.add(newEvent);
-        return "Success: Created " + title;
-    }
 
-    public String cancelEventGui(String eventId) {
-        Event event = getEvent(eventId);
-        if (event == null) return "Error: Not found.";
-        event.setStatus("Cancelled");
-        for (User u : UserManagement.getUserList()) { u.cancelledBooked(eventId); } //error here if no user is created
-        WaitListManagement.getWaitlistForEvent(eventId).clear();
-        return "Event " + eventId + " Cancelled.";
-    }
+        // validate capacity 
+        if (!cap.isBlank()) {
+            try {
+                int capacity = Integer.parseInt(cap);
+                if (checkCapacity(capacity)) return "Error: Capacity must be > 0.";
+                if (capacity < (event.getCapacity() - event.getRemainingCapacity())) {
+                    return "Error: New capacity cannot be smaller than existing bookings.";
+                }
+                event.setCapacity(capacity);
+            } catch (Exception e) { return "Error: Capacity must be a number."; }
+        }
 
-    public List<Event> searchByTitleGui(String query) {
-        return eventList.stream()
-                .filter(e -> e.getTitle().toLowerCase().contains(query.toLowerCase()))
-                .collect(Collectors.toList());
-    }
+        if (!title.isBlank()) event.setTitle(title);
+        if (!loc.isBlank()) event.setLocation(loc);
 
-    public List<Event> filterByTypeGui(String type) {
-        if (type == null || type.equalsIgnoreCase("All")) return eventList;
-        return eventList.stream()
-                .filter(e -> e.getClass().getSimpleName().equalsIgnoreCase(type))
-                .collect(Collectors.toList());
+        // Update specific data 
+        if (!specificData.isBlank()) {
+            if (event instanceof Workshop) ((Workshop) event).setTopic(specificData);
+            else if (event instanceof Seminar) ((Seminar) event).setSpeakerName(specificData);
+            else if (event instanceof Concert) {
+                try {
+                    if(!specificData.equalsIgnoreCase("all ages")) Integer.parseInt(specificData);
+                    ((Concert) event).setAgeRestriction(specificData);
+                } catch (Exception e) { return "Error: Age must be a number or 'all ages'."; }
+            }
+        }
+
+        return "Success: Event " + id + " updated.";
     }
 
     // --- UTILITIES ---

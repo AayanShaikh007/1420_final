@@ -38,6 +38,7 @@ public class BookingView extends VBox {
 
         Button bookBtn = new Button("Book Event");
         Button cancelBtn = new Button("Cancel Selected Booking");
+        Button updateBtn = new Button("Update Selected Booking");
         Button refreshBtn = new Button("Refresh");
 
         bookBtn.setOnAction(e -> {
@@ -70,6 +71,24 @@ public class BookingView extends VBox {
             refreshAll();
         });
 
+        updateBtn.setOnAction(e -> {
+            Booking selected = bookingTable.getSelectionModel().getSelectedItem();
+            String newEventId = eventCombo.getValue();
+
+            if (selected == null) {
+                resultLabel.setText("Please select a booking from the table to update.");
+                return;
+            }
+            if (newEventId == null || newEventId.isBlank()) {
+                resultLabel.setText("Please select a new event from the dropdown.");
+                return;
+            }
+
+            String result = bookingManager.updateBookingGui(selected.getBookingId(), newEventId);
+            resultLabel.setText(result);
+            refreshAll();
+        });
+
         refreshBtn.setOnAction(e -> refreshAll());
 
         HBox selectors = new HBox(10,
@@ -81,7 +100,7 @@ public class BookingView extends VBox {
         userCombo.setMaxWidth(Double.MAX_VALUE);
         eventCombo.setMaxWidth(Double.MAX_VALUE);
 
-        HBox buttons = new HBox(10, bookBtn, cancelBtn, refreshBtn);
+        HBox buttons = new HBox(10, bookBtn, updateBtn, cancelBtn, refreshBtn);
 
         getChildren().addAll(
                 title,

@@ -254,4 +254,30 @@ public class BookingManagement {
         }
         return "Cancelled booking. Promotion happened: userId=" + promoted.getUserId() + " for eventId=" + eventId;
     }
+
+// method to update booking's event,  
+    public String updateBookingGui(String bookingId, String newEventId) {
+        Booking booking = null;
+        // iterate over all bookings to find the one with the matching bookingId
+        for (Booking b : bookingList) {
+            if (b.getBookingId().equalsIgnoreCase(bookingId)) {
+                booking = b;
+                break;
+            }
+        }
+        if (booking == null) return "Booking not found.";
+        if (booking.getEventId().equalsIgnoreCase(newEventId)) return "Booking is already for this event.";
+
+        // check if new event exists
+        Event newEvent = e.getEvent(newEventId);
+        if (newEvent == null) return "New event not found.";
+        if (newEvent.isFull()) return "New event is full. Cannot update to a full event.";
+
+        // Remove from old event (and handle waitlist/capacity)
+        String oldEventId = booking.getEventId();
+        cancelBookingGui(booking.getUserId(), oldEventId);
+
+        // Add to new event
+        return bookEventGui(booking.getUserId(), newEventId);
+    }
 }

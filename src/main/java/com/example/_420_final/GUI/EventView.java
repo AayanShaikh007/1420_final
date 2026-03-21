@@ -51,6 +51,11 @@ public class EventView extends VBox {
         Button addBtn = new Button("Create Event");
         addBtn.setOnAction(e -> handleCreate());
 
+        Button updateBtn = new Button("Update Event");
+        updateBtn.setOnAction(e -> handleUpdate());
+
+        HBox createButtons = new HBox(10, addBtn, updateBtn);
+
         // --- SECTION: SEARCH & LIST ---
         searchField.setPromptText("Search by title...");
         searchField.setOnKeyReleased(e -> handleSearch());
@@ -59,14 +64,38 @@ public class EventView extends VBox {
         cancelBtn.setStyle("-fx-background-color: #ff9999;");
         cancelBtn.setOnAction(e -> handleCancel());
 
+        eventListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null) {
+                String id = newVal.split(" \\| ")[0];
+                Event ev = EventManagement.getEvent(id);
+                if (ev != null) {
+                    idField.setText(ev.getEventId());
+                    titleField.setText(ev.getTitle());
+                    dateField.setText(ev.getDateTime().toString());
+                    locField.setText(ev.getLocation());
+                    capField.setText(String.valueOf(ev.getCapacity()));
+                    if (ev instanceof Workshop) specField.setText(((Workshop) ev).getTopic());
+                    else if (ev instanceof Seminar) specField.setText(((Seminar) ev).getSpeakerName());
+                    else if (ev instanceof Concert) specField.setText(((Concert) ev).getAgeRestriction());
+                }
+            }
+        });
+
         refreshList();
 
-        getChildren().addAll(head, grid, addBtn, statusLabel, new Separator(),
+        getChildren().addAll(head, grid, createButtons, statusLabel, new Separator(),
                 new Label("Search & Manage Events:"), searchField, eventListView, cancelBtn);
     }
 
     private void handleCreate() {
         String res = eventManager.createEventGui(typeCombo.getValue(), idField.getText(),
+                titleField.getText(), dateField.getText(), locField.getText(), capField.getText(), specField.getText());
+        statusLabel.setText(res);
+        refreshList();
+    }
+
+    private void handleUpdate() {
+        String res = eventManager.updateEventGui(idField.getText(),
                 titleField.getText(), dateField.getText(), locField.getText(), capField.getText(), specField.getText());
         statusLabel.setText(res);
         refreshList();
