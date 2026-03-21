@@ -1,6 +1,6 @@
 package com.example._420_final.GUI;
 
-import com.example._420_final.Control.Event;
+import com.example._420_final.Control.*;
 import com.example._420_final.Management.EventManagement;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;

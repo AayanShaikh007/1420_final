@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8da27c26-5445-49ff-b835-a75f0d0e5576" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/BookingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/BookingView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/WaitListManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/WaitListManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Files/events.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/events.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Files/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/users.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

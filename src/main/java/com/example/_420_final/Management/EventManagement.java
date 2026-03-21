@@ -39,6 +39,60 @@ public class EventManagement {
         for (Event e : filterByTypeGui(type)) { e.print(); }
     }
 
+    // gui logic methods
+
+    public String createEventGui(String type, String id, String title, String date, String loc, String cap, String specificData) {
+        if (checkId(id)) return "Error: Event ID exists.";
+        if (checkDate(date)) return "Error: Use yyyy-MM-ddTHH:mm";
+
+        int capacity;
+        try {
+            capacity = Integer.parseInt(cap);
+            if (checkCapacity(capacity)) return "Error: Capacity > 0.";
+        } catch (Exception e) { return "Error: Capacity must be a number."; }
+
+        Event newEvent;
+        switch (type.toLowerCase()) {
+            case "workshop": newEvent = new Workshop(id, title, date, loc, capacity, "Active", specificData); break;
+            case "seminar":  newEvent = new Seminar(id, title, date, loc, capacity, "Active", specificData); break;
+            case "concert":
+                try {
+                    if(specificData.equalsIgnoreCase("all ages")){
+                        newEvent = new Concert(id, title, date, loc, capacity, "Active", specificData);
+                    }else {
+                        Integer.parseInt(specificData);
+                        newEvent = new Concert(id, title, date, loc, capacity, "Active", specificData);
+                    }
+                } catch (Exception e) { return "Error: Age must be a number."; }
+                break;
+            default: return "Error: Invalid Type.";
+        }
+        eventList.add(newEvent);
+        return "Success: Created " + title;
+    }
+
+    public String cancelEventGui(String eventId) {
+        Event event = getEvent(eventId);
+        if (event == null) return "Error: Not found.";
+        event.setStatus("Cancelled");
+        for (User u : UserManagement.getUserList()) { u.cancelledBooked(eventId); }
+        WaitListManagement.removeWaitlistedBooking(eventId, ""); // Existing logic placeholder
+        return "Event " + eventId + " Cancelled.";
+    }
+
+    public List<Event> searchByTitleGui(String query) {
+        return eventList.stream()
+                .filter(e -> e.getTitle().toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toList());
+    }
+
+    public List<Event> filterByTypeGui(String type) {
+        if (type == null || type.equalsIgnoreCase("All")) return eventList;
+        return eventList.stream()
+                .filter(e -> e.getClass().getSimpleName().equalsIgnoreCase(type))
+                .collect(Collectors.toList());
+    }
+
     public String updateEventGui(String id, String title, String date, String loc, String cap, String specificData) {
         Event event = getEvent(id);
         if (event == null) return "Error: Event not found.";
@@ -64,7 +118,7 @@ public class EventManagement {
         if (!title.isBlank()) event.setTitle(title);
         if (!loc.isBlank()) event.setLocation(loc);
 
-        // Update specific data 
+        // update specific data for user. 
         if (!specificData.isBlank()) {
             if (event instanceof Workshop) ((Workshop) event).setTopic(specificData);
             else if (event instanceof Seminar) ((Seminar) event).setSpeakerName(specificData);
