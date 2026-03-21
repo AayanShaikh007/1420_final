@@ -20,6 +20,16 @@ public class BookingManagement {
     private static ArrayList<Booking> bookingList = new ArrayList<Booking>();
     Scanner myObj = new Scanner(System.in);
 
+    public static int countBookingsForEvent(String eventId) {
+        int count = 0;
+        for (Booking b : bookingList) {
+            if (b.getEventId().equals(eventId) && !b.getBookingStatus().equalsIgnoreCase("Waitlisted")) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     public void bookEvent(String userId, String eventId){
         Event event = e.getEvent(eventId);
         User user = u.getUser(userId);
@@ -271,7 +281,7 @@ public class BookingManagement {
         // check if new event exists
         Event newEvent = e.getEvent(newEventId);
         if (newEvent == null) return "New event not found.";
-        if (newEvent.isFull()) return "New event is full. Cannot update to a full event.";
+        if (newEvent.getCapacity() == 0) return "New event is full. Cannot update to a full event.";
 
         // Remove from old event (and handle waitlist/capacity)
         String oldEventId = booking.getEventId();

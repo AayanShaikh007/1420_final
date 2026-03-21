@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Stack;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,10 @@ public class EventManagement {
     private static ArrayList<Event> eventList = new ArrayList<>();
 
     public EventManagement() {}
+
+    public void updateEvent(String id) {
+        System.out.println("Console update not fully implemented. Please use the GUI.");
+    }
 
     // --- CONSOLE BRIDGE METHODS (Fixes "Cannot Find Symbol" errors in Main.java) ---
 
@@ -98,9 +103,9 @@ public class EventManagement {
         if (event == null) return "Error: Event not found.";
 
         // validate date if changed
-        if (!date.isBlank() && !date.equalsIgnoreCase(event.getDateTime().toString())) {
+        if (!date.isBlank() && !date.equalsIgnoreCase(event.getDateTime())) {
             if (checkDate(date)) return "Error: Use yyyy-MM-ddTHH:mm";
-            event.setDateTime(LocalDateTime.parse(date, DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            event.setDateTime(date);
         }
 
         // validate capacity 
@@ -108,10 +113,13 @@ public class EventManagement {
             try {
                 int capacity = Integer.parseInt(cap);
                 if (checkCapacity(capacity)) return "Error: Capacity must be > 0.";
-                if (capacity < (event.getCapacity() - event.getRemainingCapacity())) {
-                    return "Error: New capacity cannot be smaller than existing bookings.";
+                
+                // Ensure new capacity covers existing confirmed bookings
+                int confirmed = BookingManagement.countBookingsForEvent(id);
+                if (capacity < confirmed) {
+                    return "Error: New capacity (" + capacity + ") is less than confirmed bookings (" + confirmed + ").";
                 }
-                event.setCapacity(capacity);
+                event.setCapacity(capacity - confirmed);
             } catch (Exception e) { return "Error: Capacity must be a number."; }
         }
 

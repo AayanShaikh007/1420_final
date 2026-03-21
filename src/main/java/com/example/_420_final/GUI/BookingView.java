@@ -160,7 +160,7 @@ public class BookingView extends VBox {
         if (current != null && ids.contains(current)) {
             userCombo.setValue(current);
         } else if (!ids.isEmpty()) {
-            userCombo.setValue(ids.getFirst());
+            userCombo.setValue(ids.get(0));
         } else {
             userCombo.setValue(null);
         }
@@ -179,7 +179,7 @@ public class BookingView extends VBox {
         if (current != null && ids.contains(current)) {
             eventCombo.setValue(current);
         } else if (!ids.isEmpty()) {
-            eventCombo.setValue(ids.getFirst());
+            eventCombo.setValue(ids.get(0));
         } else {
             eventCombo.setValue(null);
         }

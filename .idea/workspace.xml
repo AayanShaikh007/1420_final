@@ -5,8 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8da27c26-5445-49ff-b835-a75f0d0e5576" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/out/production/1420_final/com/example/_420_final/Main.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/BookingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/BookingView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/WaitlistView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/WaitlistView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/BookingManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/BookingManagement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

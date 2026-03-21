@@ -108,7 +108,7 @@ public class WaitlistView extends VBox {
         if (current != null && ids.contains(current)) {
             eventIdCombo.setValue(current);
         } else if (!ids.isEmpty()) {
-            eventIdCombo.setValue(ids.getFirst());
+            eventIdCombo.setValue(ids.get(0));
         } else {
             eventIdCombo.setValue(null);
         }
