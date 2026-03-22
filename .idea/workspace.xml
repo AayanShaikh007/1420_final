@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8da27c26-5445-49ff-b835-a75f0d0e5576" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/AppTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Files/events.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/events.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Files/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/users.csv" afterDir="false" />
-    </list>
+    <list default="true" id="8da27c26-5445-49ff-b835-a75f0d0e5576" name="Changes" comment="Added Junit test cases - Mani" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -160,8 +154,17 @@
       <workItem from="1773954593581" duration="10301000" />
       <workItem from="1773970139035" duration="12000" />
       <workItem from="1773970202009" duration="124000" />
-      <workItem from="1774220811965" duration="2432000" />
+      <workItem from="1774220811965" duration="2753000" />
     </task>
+    <task id="LOCAL-00001" summary="Added Junit test cases - Mani">
+      <option name="closed" value="true" />
+      <created>1774223380963</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1774223380963</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,5 +218,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Added Junit test cases - Mani" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Junit test cases - Mani" />
   </component>
 </project>
