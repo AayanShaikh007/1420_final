@@ -134,9 +134,6 @@ public class FileManagement {
                                 break;
                             }
                         }
-                        Event event = EventManagement.getEvent(eventId);
-                        assert event != null;
-                        event.setCapacity(event.getCapacity() - 1);
                         break;
 
                     case "waitlisted":
@@ -163,6 +160,8 @@ public class FileManagement {
         saveEventsToCSV();
         saveBookingsToCSV();
     }
+
+    //writes in the CSB the data from events
     public static void saveEventsToCSV(){
         try(FileWriter writer = new FileWriter("src/main/resources/Files/events.csv");) {
             writer.write("eventId,title,dateTime,location,capacity,status,eventType,topic,speakerName,ageRestriction\n");   // header
@@ -224,6 +223,7 @@ public class FileManagement {
         }
     }
 
+    //writes in the CSB the data from Users
     public static void saveUsersToCSV(){
         try(FileWriter writer = new FileWriter("src/main/resources/Files/users.csv");) {
             writer.write("userId,name,email,userType\n");   // header
@@ -265,6 +265,7 @@ public class FileManagement {
         }
     }
 
+    //writes in the CSB the data from Bookings
     public static void saveBookingsToCSV(){
         try(FileWriter writer = new FileWriter("src/main/resources/Files/bookings.csv");) {
             writer.write("bookingId,userId,eventId,createdAt,bookingStatus\n");   // header

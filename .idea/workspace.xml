@@ -5,12 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8da27c26-5445-49ff-b835-a75f0d0e5576" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/out/production/1420_final/com/example/_420_final/Main.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/BookingView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/BookingView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/WaitlistView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/WaitlistView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/BookingManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/BookingManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/FileManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/FileManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Files/events.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/events.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Files/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/users.csv" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,7 +72,7 @@
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/reina/Documents/University/2 Semestre/OOP/Proyecto/1420_final/src/main/java/com/example/_420_final/Files&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/reina/Documents/University/2 Semestre/OOP/Proyecto/drop/src/main/resources/Files&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -85,6 +84,7 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\reina\Documents\University\2 Semestre\OOP\Proyecto\drop\src\main\resources\Files" />
       <recent name="C:\Users\reina\Documents\University\2 Semestre\OOP\Proyecto\1420_final\src\main\java\com\example\_420_final\Files" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -142,6 +142,9 @@
       <updated>1772719329501</updated>
       <workItem from="1772719329955" duration="674000" />
       <workItem from="1773954593581" duration="10301000" />
+      <workItem from="1774492022555" duration="370000" />
+      <workItem from="1774535899632" duration="762000" />
+      <workItem from="1774642315348" duration="1828000" />
     </task>
     <servers />
   </component>
