@@ -2,8 +2,11 @@ package com.example._420_final;
 
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import java.util.List;
 
 public class EventView extends VBox {
     private final EventManagement eventManager = new EventManagement();
@@ -22,6 +25,11 @@ public class EventView extends VBox {
     private final TextField searchField = new TextField();
     private final ListView<String> eventListView = new ListView<>();
 
+    private final ComboBox<String> typeFilterCombo = new ComboBox<>(
+            FXCollections.observableArrayList("All", "Workshop", "Seminar", "Concert")
+    );
+    private final Button rosterBtn = new Button("View Event Roster");
+
     public EventView() {
         setSpacing(10);
         setPadding(new Insets(15));
@@ -36,31 +44,41 @@ public class EventView extends VBox {
         typeCombo.setValue("Workshop");
         idField.setPromptText("Event ID");
         titleField.setPromptText("Title");
-        dateField.setPromptText("dd/MM/yyyy HH:mm");
+        dateField.setPromptText("DD/MM/YYYY HH:mm");
         locField.setPromptText("Location");
         capField.setPromptText("Capacity");
-        specField.setPromptText("Topic / Speaker / Age");
+        specField.setPromptText("Specific Data (Topic/Speaker/Age)");
 
-        grid.addRow(0, new Label("Type:"), typeCombo, new Label("ID:"), idField);
-        grid.addRow(1, new Label("Title:"), titleField, new Label("Date:"), dateField);
-        grid.addRow(2, new Label("Location:"), locField, new Label("Capacity:"), capField);
-        grid.addRow(3, new Label("Specific Data:"), specField);
+        grid.add(new Label("Type:"), 0, 0); grid.add(typeCombo, 1, 0);
+        grid.add(new Label("ID:"), 0, 1); grid.add(idField, 1, 1);
+        grid.add(new Label("Title:"), 0, 2); grid.add(titleField, 1, 2);
+        grid.add(new Label("Date:"), 0, 3); grid.add(dateField, 1, 3);
+        grid.add(new Label("Location:"), 0, 4); grid.add(locField, 1, 4);
+        grid.add(new Label("Capacity:"), 0, 5); grid.add(capField, 1, 5);
+        grid.add(new Label("Specific:"), 0, 6); grid.add(specField, 1, 6);
 
         Button addBtn = new Button("Create Event");
         addBtn.setOnAction(e -> handleCreate());
 
-        // --- SECTION: SEARCH & LIST ---
+        // --- SECTION: SEARCH/LIST ---
         searchField.setPromptText("Search by title...");
         searchField.setOnKeyReleased(e -> handleSearch());
 
-        Button cancelBtn = new Button("Cancel Selected Event");
-        cancelBtn.setStyle("-fx-background-color: #ff9999;");
+        typeFilterCombo.setValue("All");
+        typeFilterCombo.setOnAction(e -> handleSearch());
+        HBox filterBar = new HBox(10, new Label("Search:"), searchField, new Label("Type:"), typeFilterCombo);
+
+        Button cancelBtn = new Button("Cancel Event");
         cancelBtn.setOnAction(e -> handleCancel());
+
+        // --- ROSTER SETUP ---
+        rosterBtn.setOnAction(e -> handleViewRoster());
+        HBox actionBox = new HBox(10, cancelBtn, rosterBtn);
 
         refreshList();
 
         getChildren().addAll(head, grid, addBtn, statusLabel, new Separator(),
-                new Label("Search & Manage Events:"), searchField, eventListView, cancelBtn);
+                new Label("Search & Manage Events:"), filterBar, eventListView, actionBox);
     }
 
     private void handleCreate() {
@@ -71,10 +89,18 @@ public class EventView extends VBox {
     }
 
     private void handleSearch() {
-        var results = eventManager.searchByTitleGui(searchField.getText());
+        String query = searchField.getText().toLowerCase();
+        String selectedType = typeFilterCombo.getValue();
+
         eventListView.getItems().clear();
-        for (Event ev : results) {
-            eventListView.getItems().add(ev.getEventId() + " | " + ev.getTitle() + " | " + ev.getStatus() + " | Cap: " + ev.getCapacity());
+        for (Event ev : EventManagement.getEventList()) {
+            boolean matchesSearch = ev.getTitle().toLowerCase().contains(query);
+            boolean matchesType = selectedType.equals("All") ||
+                    ev.getClass().getSimpleName().equalsIgnoreCase(selectedType);
+
+            if (matchesSearch && matchesType) {
+                eventListView.getItems().add(ev.getEventId() + " | " + ev.getTitle() + " | " + ev.getStatus() + " | Cap: " + ev.getCapacity());
+            }
         }
     }
 
@@ -86,10 +112,37 @@ public class EventView extends VBox {
         refreshList();
     }
 
-    private void refreshList() {
-        eventListView.getItems().clear();
-        for (Event ev : EventManagement.getEventList()) {
-            eventListView.getItems().add(ev.getEventId() + " | " + ev.getTitle() + " | " + ev.getStatus() + " | Cap: " + ev.getCapacity());
+    // --- ROSTER CHECKING ---
+    private void handleViewRoster() {
+        String selected = eventListView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            statusLabel.setText("Select an event first.");
+            return;
         }
+        String eventId = selected.split(" \\| ")[0];
+
+        Stage rosterStage = new Stage();
+        rosterStage.setTitle("Roster for " + eventId);
+
+        ListView<String> rosterDisplay = new ListView<>();
+        rosterDisplay.getItems().add("=== WAITLIST ===");
+
+        List<Booking> waitlist = WaitListManagement.getWaitlistForEvent(eventId);
+        if (waitlist.isEmpty()) {
+            rosterDisplay.getItems().add("No one on waitlist.");
+        } else {
+            for (Booking b : waitlist) {
+                rosterDisplay.getItems().add("Booking ID: " + b.getBookingId() + " | User: " + b.getUserId());
+            }
+        }
+
+        VBox root = new VBox(10, new Label("Event Roster: " + eventId), rosterDisplay);
+        root.setPadding(new Insets(15));
+        rosterStage.setScene(new Scene(root, 300, 400));
+        rosterStage.show();
+    }
+
+    private void refreshList() {
+        handleSearch();
     }
 }

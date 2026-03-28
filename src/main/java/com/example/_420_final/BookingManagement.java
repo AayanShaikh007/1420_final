@@ -1,5 +1,6 @@
 package com.example._420_final;
 
+import java.io.*;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -260,5 +261,51 @@ public class BookingManagement {
             }
         }
         return "Cancelled booking. Promotion happened: userId=" + promoted.getUserId() + " for eventId=" + eventId;
+    }
+
+    public static void saveBookings() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("bookings.txt"))) {
+            for (User u : UserManagement.getUserList()) {
+                for (Booking b : u.getUserBook()) {
+                    if (b != null) {
+                        // Format: ID,UserId,EventId,CreatedAt,Status
+                        writer.println(b.getBookingId() + "," + b.getUserId() + "," +
+                                b.getEventId() + "," + b.getCreatedAt() + "," + b.getBookingStatus());
+                    }
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Save Error: " + e.getMessage());
+        }
+    }
+
+    public static void loadBookings() {
+        File file = new File("bookings.txt");
+        if (!file.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] p = line.split(",");
+                if (p.length < 5) continue;
+
+                Booking b = new Booking(p[0], p[1], p[2], p[3], p[4]);
+                User u = UserManagement.getUserList().stream()
+                        .filter(user -> user.getUserId().equals(p[1]))
+                        .findFirst().orElse(null);
+
+                if (u != null) {
+                    // Put booking back into user's array
+                    for (int i = 0; i < u.getUserBook().length; i++) {
+                        if (u.getUserBook()[i] == null) {
+                            u.getUserBook()[i] = b;
+                            break;
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Load Error: " + e.getMessage());
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example._420_final;
 
+import java.io.*;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
@@ -69,5 +70,45 @@ public class WaitListManagement {
         String msg = lastPromotionNotification;
         lastPromotionNotification = null;
         return msg;
+    }
+
+    // --- NEW PHASE 2 PERSISTENCE FUNCTIONS ---
+
+    public static void saveWaitlists() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("waitlists.txt"))) {
+            for (Map.Entry<String, Deque<Booking>> entry : waitlistsByEventId.entrySet()) {
+                String eventId = entry.getKey();
+                for (Booking b : entry.getValue()) {
+                    // Format: EventId,BookingId,UserId,CreatedAt,Status
+                    writer.println(eventId + "," + b.getBookingId() + "," + b.getUserId() + "," +
+                            b.getCreatedAt() + "," + b.getBookingStatus());
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Waitlist Save Error: " + e.getMessage());
+        }
+    }
+
+    public static void loadWaitlists() {
+        File file = new File("waitlists.txt");
+        if (!file.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] p = line.split(",");
+                if (p.length < 5) continue;
+
+                String eventId = p[0];
+                Booking b = new Booking(p[1], p[2], p[3], p[4], p[5]);
+
+                // Put it back into the map
+                waitlistsByEventId
+                        .computeIfAbsent(eventId, k -> new java.util.ArrayDeque<>())
+                        .addLast(b);
+            }
+        } catch (Exception e) {
+            System.err.println("Waitlist Load Error: " + e.getMessage());
+        }
     }
 }

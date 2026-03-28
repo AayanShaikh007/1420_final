@@ -1,5 +1,6 @@
 package com.example._420_final;
 
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -119,6 +120,41 @@ public class UserManagement {
                 // This prints to the console for your old Main.java code
                 System.out.println("ID: " + user.getUserId() + " | Name: " + user.getName());
             }
+        }
+    }
+
+    public static void saveUsers() {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("users.txt"))) {
+            for (User u : userList) {
+                String type = u.getClass().getSimpleName();
+                writer.println(type + "," + u.getUserId() + "," + u.getName() + "," + u.getEmail());
+            }
+        } catch (IOException e) {
+            System.err.println("Save Error: " + e.getMessage());
+        }
+    }
+
+    public static void loadUsers() {
+        File file = new File("users.txt");
+        if (!file.exists()) return;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            String line;
+            userList.clear();
+            while ((line = reader.readLine()) != null) {
+                String[] p = line.split(",");
+                if (p.length < 4) continue;
+
+                String type = p[0], id = p[1], name = p[2], email = p[3];
+                User user = null;
+                if (type.equalsIgnoreCase("Student")) user = new Student(id, name, email);
+                else if (type.equalsIgnoreCase("Staff")) user = new Staff(id, name, email);
+                else if (type.equalsIgnoreCase("Guest")) user = new Guest(id, name, email);
+
+                if (user != null) userList.add(user);
+            }
+        } catch (Exception e) {
+            System.err.println("Load Error: " + e.getMessage());
         }
     }
 }
