@@ -12,7 +12,7 @@ This is a Java application for managing users, events, and bookings. It supports
 ## How to Run the Program
 
 ### Prerequisites
-- **Java JDK 21** or higher.
+- **Java JDK 21** or higher
 - **Maven**
 
 ### Option 1: Using the GUI (Recommended)

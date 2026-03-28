@@ -1,0 +1,13 @@
+package com.example._420_final.Control;
+
+public class Student extends User{
+
+    public Student(){
+
+    }
+
+    public Student(String userId, String name, String email){
+        super(userId, name, email);
+        setUserBook(new Booking[3]);
+    }
+}
