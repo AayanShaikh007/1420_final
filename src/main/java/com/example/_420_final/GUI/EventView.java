@@ -133,6 +133,7 @@ public class EventView extends VBox {
     private void handleSearchAndFilter() {
         String query = searchField.getText().toLowerCase();
         String selectedType = filterTypeChoice.getValue();
+
         eventListView.getItems().clear();
 
         for (com.example._420_final.Control.Event ev : com.example._420_final.Management.EventManagement.getEventList()) {
