@@ -76,7 +76,8 @@ public class EventView extends VBox {
         var results = eventManager.searchByTitleGui(searchField.getText());
         eventListView.getItems().clear();
         for (Event ev : results) {
-            eventListView.getItems().add(ev.getEventId() + " | " + ev.getTitle() + " | " + ev.getStatus() + " | Cap: " + ev.getCapacity());
+            int confirmed = com.example._420_final.Management.BookingManagement.countBookingsForEvent(ev.getEventId());
+            eventListView.getItems().add(ev.getEventId() + " | " + ev.getTitle() + " | " + ev.getStatus() + " | Total: " + (ev.getCapacity() + confirmed) + " | Remaining: " + ev.getCapacity());
         }
     }
 
@@ -91,7 +92,8 @@ public class EventView extends VBox {
     private void refreshList() {
         eventListView.getItems().clear();
         for (Event ev : EventManagement.getEventList()) {
-            eventListView.getItems().add(ev.getEventId() + " | " + ev.getTitle() + " | " + ev.getStatus() + " | Cap: " + ev.getCapacity());
+            int confirmed = com.example._420_final.Management.BookingManagement.countBookingsForEvent(ev.getEventId());
+            eventListView.getItems().add(ev.getEventId() + " | " + ev.getTitle() + " | " + ev.getStatus() + " | Total: " + (ev.getCapacity() + confirmed) + " | Remaining: " + ev.getCapacity());
         }
     }
 }

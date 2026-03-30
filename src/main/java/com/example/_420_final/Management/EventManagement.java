@@ -147,7 +147,7 @@ public class EventManagement {
                 if (capacity < confirmed) {
                     return "Error: New capacity (" + capacity + ") is less than confirmed bookings (" + confirmed + ").";
                 }
-                event.setCapacity(capacity - confirmed);
+                event.setCapacity(capacity);
             } catch (Exception e) { return "Error: Capacity must be a number."; }
         }
 

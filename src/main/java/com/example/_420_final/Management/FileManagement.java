@@ -22,10 +22,7 @@ public class FileManagement {
 
             String line;
             while ((line = br.readLine()) != null) {
-                String cleaned = String.join(",",
-                        Arrays.stream(line.split(",")).filter(s -> !s.isBlank()).toArray(String[]::new)
-                );
-                String[] d = cleaned.split(",");
+                String[] d = line.split(",");
 
                 String id = d[0];
                 String title = d[1];
@@ -181,8 +178,7 @@ public class FileManagement {
                             ((Concert) e).getAgeRestriction()
 
                     );
-                }
-                if(e instanceof Seminar){
+                } else if(e instanceof Seminar){
                     line = String.join(",",
                             e.getEventId(),
                             e.getTitle(),
@@ -196,8 +192,7 @@ public class FileManagement {
                             ""
 
                     );
-                }
-                if(e instanceof Workshop){
+                } else if(e instanceof Workshop){
                     line = String.join(",",
                             e.getEventId(),
                             e.getTitle(),
@@ -211,6 +206,8 @@ public class FileManagement {
                             ""   // empty field
 
                     );
+                } else {
+                    continue; // Skip writing if it's not a recognized subclass
                 }
                 writer.write(line);
                 writer.write("\n");
