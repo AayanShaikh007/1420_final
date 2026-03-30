@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8da27c26-5445-49ff-b835-a75f0d0e5576" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="8da27c26-5445-49ff-b835-a75f0d0e5576" name="Changes" comment="merging so that eventview is updated">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/EventView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/EventView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/FileManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/FileManagement.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/bookings.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Files/events.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/events.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Files/users.csv" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Files/users.csv" afterDir="false" />
@@ -84,6 +86,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\reina\Documents\University\2 Semestre\OOP\Proyecto\last\src\main\resources\Files" />
       <recent name="C:\Users\reina\Documents\University\2 Semestre\OOP\Proyecto\1420_final\src\main\java\com\example\_420_final\Files" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -141,8 +144,17 @@
       <updated>1772719329501</updated>
       <workItem from="1772719329955" duration="674000" />
       <workItem from="1773954593581" duration="10301000" />
-      <workItem from="1774903602589" duration="299000" />
+      <workItem from="1774903602589" duration="1259000" />
     </task>
+    <task id="LOCAL-00001" summary="merging so that eventview is updated">
+      <option name="closed" value="true" />
+      <created>1774903995904</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1774903995904</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,5 +170,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="merging so that eventview is updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="merging so that eventview is updated" />
   </component>
 </project>

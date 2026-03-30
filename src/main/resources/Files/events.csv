@@ -1,6 +1,6 @@
 eventId,title,dateTime,location,capacity,status,eventType,topic,speakerName,ageRestriction
-E101,Intro to Git,2026-09-10T14:30,Library 101,4,Active,Workshop,Version Control Basics,,
-E102,Java OOP Bootcamp,2026-09-12T10:00,ENG 200,2,Active,Workshop,Object-Oriented Design,,
+E101,Intro to Git,2026-09-10T14:30,Library 101,3,Active,Workshop,Version Control Basics,,
+E102,Java OOp,2026-09-12T10:00,ENG 200,2,Active,Workshop,Object-Oriented Design,,
 E103,Data Visualization Lab,2026-09-14T15:00,Library 202,4,Active,Workshop,Effective Charts in Java,,
 E201,AI Safety Talk,2026-09-16T10:00,MACN 113,3,Active,Seminar,,Dr. Noor,
 E202,Cybersecurity Trends,2026-09-18T13:00,THRN 1200,2,Active,Seminar,,Prof. Ali Dehghantanha,
