@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8da27c26-5445-49ff-b835-a75f0d0e5576" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/HelloApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/BookingManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/BookingManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/EventManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/UserManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/UserManagement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/WaitListManagement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/Management/WaitListManagement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/EventView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/_420_final/GUI/EventView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +37,12 @@
     &quot;assignee&quot;: &quot;AayanShaikh007&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/AayanShaikh007/1420_final.git&quot;,
-    &quot;accountId&quot;: &quot;f0648589-9af7-41ad-858c-353d412e83b9&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/AayanShaikh007/1420_final.git",
+    "accountId": "aacab309-1d27-478a-898c-7a90a4c5da8b"
   }
-}</component>
+}]]></component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>

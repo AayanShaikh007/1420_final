@@ -2,10 +2,15 @@ package com.example._420_final.GUI;
 
 import com.example._420_final.Control.*;
 import com.example._420_final.Management.EventManagement;
+import com.example._420_final.Management.WaitListManagement;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+import java.util.List;
 
 public class EventView extends VBox {
     private final EventManagement eventManager = new EventManagement();
@@ -20,8 +25,9 @@ public class EventView extends VBox {
     private final TextField specField = new TextField();
     private final Label statusLabel = new Label();
 
-    // UI Elements for Search/List
+    // UI Elements for Search/Filter
     private final TextField searchField = new TextField();
+    private final ChoiceBox<String> filterTypeChoice = new ChoiceBox<>(FXCollections.observableArrayList("All", "Workshop", "Seminar", "Concert"));
     private final ListView<String> eventListView = new ListView<>();
 
     public EventView() {
@@ -31,7 +37,7 @@ public class EventView extends VBox {
         Label head = new Label("Event Management");
         head.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
-        // --- SECTION: CREATE EVENT ---
+        // --- SECTION: CREATE/UPDATE EVENT ---
         GridPane grid = new GridPane();
         grid.setHgap(10); grid.setVgap(8);
 
@@ -41,50 +47,44 @@ public class EventView extends VBox {
         dateField.setPromptText("yyyy-MM-ddTHH:mm");
         locField.setPromptText("Location");
         capField.setPromptText("Capacity");
-        specField.setPromptText("Topic / Speaker / Age");
+        specField.setPromptText("Topic/Speaker/Age");
 
-        grid.addRow(0, new Label("Type:"), typeCombo, new Label("ID:"), idField);
-        grid.addRow(1, new Label("Title:"), titleField, new Label("Date:"), dateField);
-        grid.addRow(2, new Label("Location:"), locField, new Label("Capacity:"), capField);
-        grid.addRow(3, new Label("Specific Data:"), specField);
+        grid.addRow(0, new Label("Type:"), typeCombo);
+        grid.addRow(1, new Label("ID:"), idField);
+        grid.addRow(2, new Label("Title:"), titleField);
+        grid.addRow(3, new Label("Date:"), dateField);
+        grid.addRow(4, new Label("Location:"), locField);
+        grid.addRow(5, new Label("Capacity:"), capField);
+        grid.addRow(6, new Label("Specific:"), specField);
 
-        Button addBtn = new Button("Create Event");
+        Button addBtn = new Button("Add Event");
         addBtn.setOnAction(e -> handleCreate());
-
         Button updateBtn = new Button("Update Event");
         updateBtn.setOnAction(e -> handleUpdate());
 
-        HBox createButtons = new HBox(10, addBtn, updateBtn);
+        HBox formBtns = new HBox(10, addBtn, updateBtn);
 
-        // --- SECTION: SEARCH & LIST ---
-        searchField.setPromptText("Search by title...");
-        searchField.setOnKeyReleased(e -> handleSearch());
+        // --- SECTION: SEARCH & FILTER ---
+        searchField.setPromptText("Search by Title...");
+        filterTypeChoice.setValue("All");
 
+        Button searchBtn = new Button("Search/Filter");
+        searchBtn.setOnAction(e -> handleSearchAndFilter());
+
+        HBox filterBar = new HBox(10, searchField, filterTypeChoice, searchBtn);
+
+        // --- SECTION: LIST & ROSTER ---
         Button cancelBtn = new Button("Cancel Selected Event");
-        cancelBtn.setStyle("-fx-background-color: #ff9999;");
         cancelBtn.setOnAction(e -> handleCancel());
 
-        eventListView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
-            if (newVal != null) {
-                String id = newVal.split(" \\| ")[0];
-                Event ev = EventManagement.getEvent(id);
-                if (ev != null) {
-                    idField.setText(ev.getEventId());
-                    titleField.setText(ev.getTitle());
-                    dateField.setText(ev.getDateTime().toString());
-                    locField.setText(ev.getLocation());
-                    capField.setText(String.valueOf(ev.getCapacity()));
-                    if (ev instanceof Workshop) specField.setText(((Workshop) ev).getTopic());
-                    else if (ev instanceof Seminar) specField.setText(((Seminar) ev).getSpeakerName());
-                    else if (ev instanceof Concert) specField.setText(((Concert) ev).getAgeRestriction());
-                }
-            }
-        });
+        Button rosterBtn = new Button("View Waitlist Roster");
+        rosterBtn.setOnAction(e -> handleViewRoster());
 
+        HBox actionBtns = new HBox(10, cancelBtn, rosterBtn);
+
+        getChildren().addAll(head, grid, formBtns, statusLabel, new Separator(),
+                new Label("Search & Filter"), filterBar, eventListView, actionBtns);
         refreshList();
-
-        getChildren().addAll(head, grid, createButtons, statusLabel, new Separator(),
-                new Label("Search & Manage Events:"), searchField, eventListView, cancelBtn);
     }
 
     private void handleCreate() {
@@ -101,8 +101,17 @@ public class EventView extends VBox {
         refreshList();
     }
 
-    private void handleSearch() {
-        var results = eventManager.searchByTitleGui(searchField.getText());
+    private void handleSearchAndFilter() {
+        String query = searchField.getText().toLowerCase();
+        String type = filterTypeChoice.getValue();
+        List<Event> results = eventManager.filterByTypeGui(type);
+
+        if (!query.isEmpty()) {
+            results = results.stream()
+                    .filter(ev -> ev.getTitle().toLowerCase().contains(query))
+                    .toList();
+        }
+
         eventListView.getItems().clear();
         for (Event ev : results) {
             eventListView.getItems().add(ev.getEventId() + " | " + ev.getTitle() + " | " + ev.getStatus() + " | Cap: " + ev.getCapacity());
@@ -115,6 +124,40 @@ public class EventView extends VBox {
         String id = selected.split(" \\| ")[0];
         statusLabel.setText(eventManager.cancelEventGui(id));
         refreshList();
+    }
+
+    private void handleViewRoster() {
+        String selected = eventListView.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            statusLabel.setText("Please select an event first.");
+            return;
+        }
+        String id = selected.split(" \\| ")[0];
+
+        Stage popup = new Stage();
+        popup.setTitle("Waitlist Roster: " + id);
+
+        VBox box = new VBox(10);
+        box.setPadding(new Insets(15));
+
+        Label listTitle = new Label("Waitlisted Users for " + id + ":");
+        ListView<String> rosterList = new ListView<>();
+
+        List<Booking> waitlist = WaitListManagement.getWaitlistForEvent(id);
+        if (waitlist.isEmpty()) {
+            rosterList.getItems().add("Waitlist is empty.");
+        } else {
+            for (Booking b : waitlist) {
+                rosterList.getItems().add("Booking ID: " + b.getBookingId() + " | User: " + b.getUserId());
+            }
+        }
+
+        Button close = new Button("Close");
+        close.setOnAction(e -> popup.close());
+
+        box.getChildren().addAll(listTitle, rosterList, close);
+        popup.setScene(new Scene(box, 300, 400));
+        popup.show();
     }
 
     private void refreshList() {
