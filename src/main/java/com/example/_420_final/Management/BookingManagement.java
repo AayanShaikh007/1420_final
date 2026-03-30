@@ -243,10 +243,13 @@ public class BookingManagement {
         if (event == null) return "Event not found";
         if (user == null) return "User not found";
 
-        // Cancel confirmed booking held in user's array
-        user.cancelledBooked(eventId);
+            // Cancel confirmed booking held in user's array (nulls it out)
+            user.cancelledBooked(eventId);
 
-        Booking promoted = WaitListManagement.promoteNext(eventId);
+            // Remove the canceled booking from the global bookingList (match by IDs, since status isn't set)
+            bookingList.removeIf(b -> b.getUserId().equalsIgnoreCase(userId) && b.getEventId().equalsIgnoreCase(eventId));
+
+            Booking promoted = WaitListManagement.promoteNext(eventId);
         if (promoted == null) {
             event.setCapacity(event.getCapacity() + 1);
             return "Cancelled booking. No one to promote; capacity increased.";

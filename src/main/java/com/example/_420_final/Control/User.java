@@ -91,13 +91,13 @@ public class User {
     }
 
     public void cancelledBooked(String eventId){
-        for(int i =0; i< userBook.length; i++){
-            if(userBook[i] != null && userBook[i].getEventId().equalsIgnoreCase(eventId)){
-                userBook[i].setBookingStatus("Cancelled");
-                userBook[i] = null;
+            for(int i =0; i< userBook.length; i++){
+                if(userBook[i] != null && userBook[i].getEventId().equalsIgnoreCase(eventId)){
+                    // Skip setting "Cancelled" status since we want full removal
+                    userBook[i] = null;
+                }
             }
         }
-    }
 
     public void print(){
         System.out.println("UserId: " + userId);

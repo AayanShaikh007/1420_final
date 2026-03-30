@@ -20,7 +20,7 @@ public class EventManagement {
         System.out.println("Console update not fully implemented. Please use the GUI.");
     }
 
-    // --- CONSOLE BRIDGE METHODS (Fixes "Cannot Find Symbol" errors in Main.java) ---
+    // ... existing code ...
 
     public void createEvent() {
         System.out.println("Console creation redirected to GUI logic...");
@@ -45,6 +45,34 @@ public class EventManagement {
     }
 
     // gui logic methods
+
+    public String updateEventGui(String eventId, String type, String title, String date, String loc, String cap, String specificData) {
+        Event event = getEvent(eventId);
+        if (event == null) return "Error: Event not found.";
+
+        if (title != null && !title.isBlank()) event.setTitle(title.trim());
+        if (date != null && !date.isBlank()) {
+            if (checkDate(date.trim())) return "Error: Use yyyy-MM-ddTHH:mm";
+            event.setDateTime(date.trim());
+        }
+        if (loc != null && !loc.isBlank()) event.setLocation(loc.trim());
+
+        if (cap != null && !cap.isBlank()) {
+            try {
+                int capacity = Integer.parseInt(cap.trim());
+                if (checkCapacity(capacity)) return "Error: Capacity must be > 0.";
+                event.setCapacity(capacity);
+            } catch (Exception e) {
+                return "Error: Capacity must be a number.";
+            }
+        }
+
+        if (specificData != null && !specificData.isBlank()) {
+            event.setSpecificData(specificData.trim());
+        }
+
+        return "Success: Updated " + eventId;
+    }
 
     public String createEventGui(String type, String id, String title, String date, String loc, String cap, String specificData) {
         if (checkId(id)) return "Error: Event ID exists.";
@@ -165,5 +193,21 @@ public class EventManagement {
 
     public boolean checkCapacity(int cap) { return cap <= 0; }
 
-    public static ArrayList<Event> getEventList() { return eventList; }
+    public List<Event> searchEventsGui(String query, String typeFilter, String statusFilter) {
+        String q = query == null ? "" : query.trim().toLowerCase();
+        String type = typeFilter == null ? "All" : typeFilter.trim();
+        String status = statusFilter == null ? "All" : statusFilter.trim();
+
+        return eventList.stream()
+                .filter(e -> q.isEmpty() || (e.getTitle() != null && e.getTitle().toLowerCase().contains(q)))
+                .filter(e -> type.equalsIgnoreCase("All")
+                        || e.getClass().getSimpleName().equalsIgnoreCase(type))
+                .filter(e -> status.equalsIgnoreCase("All")
+                        || (e.getStatus() != null && e.getStatus().equalsIgnoreCase(status)))
+                .collect(Collectors.toList());
+    }
+
+    public static ArrayList<Event> getEventList() {
+        return eventList;
+    }
 }

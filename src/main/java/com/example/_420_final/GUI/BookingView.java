@@ -6,6 +6,7 @@ import com.example._420_final.Control.User;
 import com.example._420_final.Management.BookingManagement;
 import com.example._420_final.Management.EventManagement;
 import com.example._420_final.Management.UserManagement;
+import com.example._420_final.Management.WaitListManagement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -38,7 +39,6 @@ public class BookingView extends VBox {
 
         Button bookBtn = new Button("Book Event");
         Button cancelBtn = new Button("Cancel Selected Booking");
-        Button updateBtn = new Button("Update Selected Booking");
         Button refreshBtn = new Button("Refresh");
 
         bookBtn.setOnAction(e -> {
@@ -66,25 +66,22 @@ public class BookingView extends VBox {
                 return;
             }
 
-            String result = bookingManager.cancelBookingGui(selected.getUserId(), selected.getEventId());
-            resultLabel.setText(result);
-            refreshAll();
-        });
-
-        updateBtn.setOnAction(e -> {
-            Booking selected = bookingTable.getSelectionModel().getSelectedItem();
-            String newEventId = eventCombo.getValue();
-
-            if (selected == null) {
-                resultLabel.setText("Please select a booking from the table to update.");
-                return;
+            String status = selected.getBookingStatus();
+            String result;
+            if (status.equalsIgnoreCase("Waitlisted")) {
+                // Handle waitlisted cancellation separately: just remove from waitlist
+                boolean removed = WaitListManagement.removeWaitlistedBooking(selected.getEventId(), selected.getBookingId());
+                if (removed) {
+                    // Also remove from global booking list if needed
+                    BookingManagement.getBookingList().removeIf(b -> b.getBookingId().equals(selected.getBookingId()));
+                    result = "Cancelled waitlisted booking (" + selected.getBookingId() + ").";
+                } else {
+                    result = "Failed to cancel waitlisted booking.";
+                }
+            } else {
+                // Proceed with confirmed cancellation (which may promote)
+                result = bookingManager.cancelBookingGui(selected.getUserId(), selected.getEventId());
             }
-            if (newEventId == null || newEventId.isBlank()) {
-                resultLabel.setText("Please select a new event from the dropdown.");
-                return;
-            }
-
-            String result = bookingManager.updateBookingGui(selected.getBookingId(), newEventId);
             resultLabel.setText(result);
             refreshAll();
         });
@@ -100,7 +97,7 @@ public class BookingView extends VBox {
         userCombo.setMaxWidth(Double.MAX_VALUE);
         eventCombo.setMaxWidth(Double.MAX_VALUE);
 
-        HBox buttons = new HBox(10, bookBtn, updateBtn, cancelBtn, refreshBtn);
+        HBox buttons = new HBox(10, bookBtn, cancelBtn, refreshBtn);
 
         getChildren().addAll(
                 title,
@@ -186,6 +183,8 @@ public class BookingView extends VBox {
     }
 
     private void refreshBookings() {
+        // Clear existing items first to force re-render
+        bookingTable.getItems().clear();
         ObservableList<Booking> rows = FXCollections.observableArrayList(BookingManagement.getBookingList());
         bookingTable.setItems(rows);
     }
