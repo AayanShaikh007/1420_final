@@ -33,3 +33,53 @@ Once the program starts, you will see several tabs:
 3. Event Management: Create new events.
 4. Booking Management: Book a user (by ID) into an event (by ID). This page also shows which users are registered for each event.
 5. Waitlist Management: See who is waiting for an event and manage the queue.
+
+---
+
+## JUnit Tests
+
+**File**: `src/test/java/AppTest.java`
+
+---
+
+## What is Being Tested
+
+| Test | Class | What it checks |
+|------|-------|----------------|
+| `testBookingConstructor` | `Booking` | All fields (ID, user, event, status) are stored correctly |
+| `testStudentBookingSlots` | `Student` | A Student gets exactly 3 booking slots |
+| `testUserIsEmptyAtStart` | `User` | A brand new user has no bookings |
+| `testCreateUserBadEmail` | `UserManagement` | A bad email returns an error message |
+| `testCreateEventDuplicateId` | `EventManagement` | A duplicate event ID returns an error |
+
+
+## How to Run the Tests in IntelliJ
+
+1. Open the project in IntelliJ
+2. In the left panel go to `src` → `test` → `java`
+3. Open `AppTest.java`
+4. Right-click anywhere inside the file → click **Run 'AppTest'**
+5. The results appear at the bottom — green means passed, red means failed
+
+## How to View This on GitHub
+
+1. Go to the GitHub repository
+2. Click the branch dropdown (where it says `main`)
+3. Select the **`Mani`** branch
+4. Navigate to `src/test/java/AppTest.java` to see the test file
+
+
+## How to Pull This Branch into Your Own IntelliJ
+
+1. Open IntelliJ and go to **Git → Fetch** to get the latest branches
+2. At the bottom of IntelliJ click the branch name → select **`origin/Mani`** → **Checkout**
+3. The `AppTest.java` file will now be in your project
+4. Right-click it → **Run 'AppTest'**
+
+
+## Notes
+
+- Tests use **JUnit 5** which is already included in `pom.xml`
+- Only `@Test` and assert methods are used (`assertEquals`, `assertTrue`)
+
+---
