@@ -216,7 +216,8 @@ public class BookingManagement {
         String bookingId = generateUniqueId();
         String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
 
-        if (event.getCapacity() == 0 || user.isFull()) {
+        if (event.getCapacity() == 0 || user.isFull() ) {
+
             Booking waitlisted = new Booking(bookingId, userId, eventId, formattedDateTime, "Waitlisted");
             bookingList.add(waitlisted);
             WaitListManagement.addToWaitlist(waitlisted);

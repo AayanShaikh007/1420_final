@@ -43,6 +43,8 @@ public class WaitListManagement {
     }
 
 
+
+
     public static Booking promoteNext(String eventId) {
         Deque<Booking> q = waitlistsByEventId.get(eventId); //checks waitlist queue for that event
         if (q == null || q.isEmpty()) return null;
