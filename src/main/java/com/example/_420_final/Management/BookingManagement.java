@@ -217,7 +217,9 @@ public class BookingManagement {
         String formattedDateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm"));
 
         if (event.getCapacity() == 0 || user.isFull() ) {
-
+            if (alreadyBookedOrWaitlisted(userId, eventId)) {
+                return "User already waitlisted or booked for this event.";
+            }
             Booking waitlisted = new Booking(bookingId, userId, eventId, formattedDateTime, "Waitlisted");
             bookingList.add(waitlisted);
             WaitListManagement.addToWaitlist(waitlisted);
@@ -236,6 +238,15 @@ public class BookingManagement {
         return "Created CONFIRMED booking (" + bookingId + ").";
     }
 
+    private boolean alreadyBookedOrWaitlisted(String userId, String eventId) {
+        for (Booking b : bookingList) {
+            if (b.getUserId().equals(userId) &&
+                    b.getEventId().equals(eventId)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public String cancelBookingGui(String userId, String eventId) {
         Event event = e.getEvent(eventId);
